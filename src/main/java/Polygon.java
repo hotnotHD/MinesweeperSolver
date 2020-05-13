@@ -2,7 +2,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import java.awt.*;
 
 public class Polygon extends StackPane {
     private double a;

@@ -2,7 +2,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,8 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,17 +22,18 @@ public class Minesweeper extends Application {
     @FXML
     public Button backB;
     @FXML
+    public Button newB;
+    @FXML
     Button butt;
     @FXML
     Slider scrollerM;
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("mainScene.fxml"));
-
         Scene scene = new Scene(root, 600, 400);
 
         primaryStage.setScene(scene);
-
         primaryStage.setTitle("Minesweeper 0.0001");
 
         InputStream iconStream = getClass().getResourceAsStream("icon.png");
@@ -49,13 +47,11 @@ public class Minesweeper extends Application {
         launch(args);
     }
 
-    public void handle() throws IOException {
+    public void openSettings() throws IOException {
         // закрытие старого окна
         Stage stage1 =(Stage) butt.getScene().getWindow();
         stage1.close();
-
         // открываем настройки
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("settings.fxml"));
         Parent root1 = fxmlLoader.load();
         Stage stage = new Stage();
@@ -79,14 +75,24 @@ public class Minesweeper extends Application {
         Stage stage = new Stage();
         stage.setScene(new Scene(root1));
         stage.setTitle("Minesweeper");
+        stage.show();
         // Лэйбл принимает значение кол-ва мин
         Label ss = (Label) root1.getChildrenUnmodifiable().get(1);
         Slider sl = (Slider) backB.getScene().getRoot().getChildrenUnmodifiable().get(0);
         ss.setText("Mines:" + (int) sl.getValue());
+    }
 
+    public void newGame(ActionEvent actionEvent) {
+        // Кол-во мин и close main menu
+        Stage stage1 =(Stage) newB.getScene().getWindow();
+        Label mines = (Label) newB.getParent().getChildrenUnmodifiable().get(1);
+        String mine = mines.getText().substring(6);
+        int mineC = Integer.parseInt(mine);
+        stage1.close();
+        // open new game
+        Stage stage = new Stage();
+        Scene scene = new Scene(new Generator(mineC).generate(), 440, 250);
+        stage.setScene(scene);
         stage.show();
     }
 }
-
-   /*
-*/

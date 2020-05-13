@@ -1,11 +1,10 @@
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 public class Generator {
-
-     Generator() {
-
+    int mines;
+     Generator(int mines) {
+         this.mines = mines;
     }
 
     public Parent generate(){
@@ -28,6 +27,7 @@ public class Generator {
                 x += a * Math.sqrt(3) / 2;
             }
         }
+        System.out.println(mines);
         return root;
     }
 }

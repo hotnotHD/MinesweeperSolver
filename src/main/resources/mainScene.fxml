@@ -7,7 +7,8 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Minesweeper">
    <children>
-      <Button fx:id="butt" layoutX="273.0" layoutY="151.0" mnemonicParsing="false" onAction="#handle" text="Settings" />
+      <Button fx:id="butt" layoutX="272.0" layoutY="217.0" mnemonicParsing="false" onAction="#openSettings" text="Settings" />
       <Label fx:id="infoMS" layoutX="116.0" layoutY="148.0" text="Mines:0" />
+      <Button fx:id="newB" layoutX="266.0" layoutY="178.0" mnemonicParsing="false" onAction="#newGame" text="New game" />
    </children>
 </Pane>
