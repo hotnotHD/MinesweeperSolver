@@ -4,6 +4,7 @@ import javafx.scene.text.Text;
 
 
 public class Polygon extends StackPane {
+    private boolean mine;
     private double a;
     private double x1;
     private double y1;
@@ -27,6 +28,17 @@ public class Polygon extends StackPane {
 
     public void open(){
         text.setVisible(true);
+        if (mine){
+            text.setText("Boom");
+        }
+    }
+
+    public void plantBomb(Boolean b) {
+        mine = b;
+    }
+
+    public Boolean getMine() {
+        return mine;
     }
 
     public Double[] getValues(){
