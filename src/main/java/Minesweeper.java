@@ -10,7 +10,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -91,7 +90,10 @@ public class Minesweeper extends Application {
         stage1.close();
         // open new game
         Stage stage = new Stage();
-        Scene scene = new Scene(new Generator(mineC).generate(), 440, 250);
+
+        // сделать, чтоб размер был зависим от размера поля
+
+        Scene scene = new Scene(new Generator(mineC).generate(), 460, 250);
         stage.setScene(scene);
         stage.show();
     }

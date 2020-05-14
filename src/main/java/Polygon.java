@@ -1,10 +1,11 @@
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-
 public class Polygon extends StackPane {
     private boolean mine;
+    private int numberB;
     private double a;
     private double x1;
     private double y1;
@@ -15,7 +16,7 @@ public class Polygon extends StackPane {
         this.a = a;
         this.x1 = x1;
         this.y1 = y1;
-        poly.setFill(javafx.scene.paint.Color.GRAY);
+        poly.setFill(Color.GRAY);
         text.setFont(Font.font(10));
         text.setText("gg");
         text.setVisible(false);
@@ -30,6 +31,13 @@ public class Polygon extends StackPane {
         text.setVisible(true);
         if (mine){
             text.setText("Boom");
+        }else {
+            if (numberB > 0) {
+                text.setText(String.valueOf(numberB));
+            } else {
+                text.setText("");
+                poly.setFill(Color.GREEN);
+            }
         }
     }
 
@@ -39,6 +47,10 @@ public class Polygon extends StackPane {
 
     public Boolean getMine() {
         return mine;
+    }
+
+    public void setNumberB(int num){
+        numberB = num;
     }
 
     public Double[] getValues(){
