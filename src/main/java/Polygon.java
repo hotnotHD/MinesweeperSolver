@@ -1,11 +1,8 @@
-import javafx.event.EventTarget;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
-import java.awt.event.MouseEvent;
 
 public class Polygon extends StackPane {
     private boolean touched = false;
@@ -33,15 +30,15 @@ public class Polygon extends StackPane {
     }
 
     public void open(javafx.scene.input.MouseEvent e){
-        if (e == null){
-            text.setText(String.valueOf(numberB));
-            poly.setFill(Color.GRAY);
-        }
-        if (e != null && e.getButton() == MouseButton.PRIMARY ) {
+        if (e == null || e.getButton() == MouseButton.PRIMARY ) {
+            if (!touched){Minesweeper.setOpens(1);
+            System.out.println(Minesweeper.opens);
+            }
             touched = true;
             text.setVisible(true);
             if (mine) {
                 text.setText("Boom");
+                Minesweeper.lose = true;
             } else {
                 if (numberB > 0) {
                     text.setText(String.valueOf(numberB));
@@ -51,6 +48,22 @@ public class Polygon extends StackPane {
                     poly.setFill(Color.GREEN);
                 }
             }
+        }
+        if (e != null && e.getButton() == MouseButton.SECONDARY && !touched) {
+            if(text.visibleProperty().getValue()){
+                text.setVisible(false);
+                if (mine){
+                    Minesweeper.setDefC(-1);
+                }
+            }
+            else {
+                text.setVisible(true);
+                text.setText("FLAG");
+                if (mine){
+                    Minesweeper.setDefC(1);
+                }
+            }
+            System.out.println(Minesweeper.defC);
         }
     }
 

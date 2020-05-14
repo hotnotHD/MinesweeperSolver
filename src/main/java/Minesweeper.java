@@ -1,7 +1,5 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventDispatchChain;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,11 +10,20 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class Minesweeper extends Application {
+
+    public static int opens;
+    public static int defC;
+    public int mineI;
+    public static boolean lose = false;
+
     @FXML
     public Label infoSM;
     @FXML
@@ -25,6 +32,10 @@ public class Minesweeper extends Application {
     public Button backB;
     @FXML
     public Button newB;
+    @FXML
+    public Button backTMscreen;
+    @FXML
+    public Button backTMscreen2;
     @FXML
     Button butt;
     @FXML
@@ -87,15 +98,15 @@ public class Minesweeper extends Application {
     public void newGame(ActionEvent actionEvent) {
         // Кол-во мин и close main menu
         Stage stage1 =(Stage) newB.getScene().getWindow();
-        Label mines = (Label) newB.getParent().getChildrenUnmodifiable().get(1);
-        String mine = mines.getText().substring(6);
-        int mineC = Integer.parseInt(mine);
+        Label minesL = (Label) newB.getParent().getChildrenUnmodifiable().get(1);
+        String mineS = minesL.getText().substring(6);
+        mineI = Integer.parseInt(mineS);
         stage1.close();
         // open new game
         Stage stage = new Stage();
 
         // сделать, чтоб размер был зависим от размера поля
-        Generator gener = new Generator(mineC);
+        Generator gener = new Generator(mineI);
         Parent gen = gener.generate();
         Scene scene = new Scene(gen, 460, 300);
         stage.setScene(scene);
@@ -108,8 +119,55 @@ public class Minesweeper extends Application {
                     gener.planting();
                     cl[0] = false;
                 }
+                if (lose){
+                    stage.close();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("loseScreen.fxml"));
+                    Parent root1 = null;
+                    try {
+                        root1 = fxmlLoader.load();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    Stage stageW = new Stage();
+                    stageW.setScene(new Scene(root1));
+                    stageW.setTitle("Minesweeper");
+                    stageW.show();
+                }
+            }
+            if (e.getButton() == MouseButton.SECONDARY && mineI == defC){
+                stage.close();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winScreen.fxml"));
+                Parent root1 = null;
+                try {
+                    root1 = fxmlLoader.load();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                Stage stageW = new Stage();
+                stageW.setScene(new Scene(root1));
+                stageW.setTitle("Minesweeper");
+                stageW.show();
             }
         });
 
+    }
+
+    public static void setDefC(int c){
+        defC += c;
+    }
+    public static void setOpens(int c){
+        opens += c;
+    }
+
+    public void main(ActionEvent actionEvent) throws IOException {
+        Button g = backTMscreen != null ? backTMscreen : backTMscreen2;
+        Stage stage1 =(Stage) g.getScene().getWindow();
+        stage1.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainScene.fxml"));
+        Parent root1 = fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.setTitle("Minesweeper");
+        stage.show();
     }
 }

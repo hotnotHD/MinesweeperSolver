@@ -111,4 +111,8 @@ public class Generator {
              }
          }
     }
+
+    public int getMines(){
+       return mines;
+    }
 }
