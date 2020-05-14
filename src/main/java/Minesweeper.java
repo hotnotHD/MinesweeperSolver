@@ -1,5 +1,7 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventDispatchChain;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -92,9 +95,21 @@ public class Minesweeper extends Application {
         Stage stage = new Stage();
 
         // сделать, чтоб размер был зависим от размера поля
-
-        Scene scene = new Scene(new Generator(mineC).generate(), 460, 250);
+        Generator gener = new Generator(mineC);
+        Parent gen = gener.generate();
+        Scene scene = new Scene(gen, 460, 300);
         stage.setScene(scene);
         stage.show();
+        final boolean[] cl = {true};
+        gener.root.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                String f = e.getTarget().getClass().getName();
+                if (cl[0] && f.equals("javafx.scene.shape.Polygon")) {
+                    gener.planting();
+                    cl[0] = false;
+                }
+            }
+        });
+
     }
 }

@@ -1,9 +1,14 @@
+import javafx.event.EventTarget;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.awt.event.MouseEvent;
+
 public class Polygon extends StackPane {
+    private boolean touched = false;
     private boolean mine;
     private int numberB;
     private double a;
@@ -24,21 +29,33 @@ public class Polygon extends StackPane {
         getChildren().addAll(poly,text);
         setTranslateX(x1);
         setTranslateY(y1);
-        setOnMouseClicked(e -> open());
+        setOnMouseClicked(this::open);
     }
 
-    public void open(){
-        text.setVisible(true);
-        if (mine){
-            text.setText("Boom");
-        }else {
-            if (numberB > 0) {
-                text.setText(String.valueOf(numberB));
+    public void open(javafx.scene.input.MouseEvent e){
+        if (e == null){
+            text.setText(String.valueOf(numberB));
+            poly.setFill(Color.GRAY);
+        }
+        if (e != null && e.getButton() == MouseButton.PRIMARY ) {
+            touched = true;
+            text.setVisible(true);
+            if (mine) {
+                text.setText("Boom");
             } else {
-                text.setText("");
-                poly.setFill(Color.GREEN);
+                if (numberB > 0) {
+                    text.setText(String.valueOf(numberB));
+                    poly.setFill(Color.GRAY);
+                } else {
+                    text.setText("");
+                    poly.setFill(Color.GREEN);
+                }
             }
         }
+    }
+
+    public boolean getTouched(){
+        return touched;
     }
 
     public void plantBomb(Boolean b) {
