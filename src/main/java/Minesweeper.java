@@ -132,6 +132,9 @@ public class Minesweeper extends Application {
                     stageW.setScene(new Scene(root1));
                     stageW.setTitle("Minesweeper");
                     stageW.show();
+                    lose = false;
+                    opens = 0;
+                    defC = 0;
                 }
             }
             if (e.getButton() == MouseButton.SECONDARY && mineI == defC){
@@ -147,6 +150,8 @@ public class Minesweeper extends Application {
                 stageW.setScene(new Scene(root1));
                 stageW.setTitle("Minesweeper");
                 stageW.show();
+                opens = 0;
+                defC = 0;
             }
         });
 
@@ -170,4 +175,6 @@ public class Minesweeper extends Application {
         stage.setTitle("Minesweeper");
         stage.show();
     }
+    // попытаться сделать функцию запуска окна отдельно
+    // сделать размеры поля
 }
