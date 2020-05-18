@@ -5,14 +5,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class Polygon extends StackPane {
-    private boolean touched = false;
-    private boolean mine;
-    private int numberB;
-    private double a;
-    private double x1;
+    private boolean touched = false;  // был ли клик по клетке
+    private boolean mine; // есть ли в клетке мина
+    private int numberB; // кол-во мин вокруг
+    private double a; // длина стороны полигона
+    private double x1; // позиция начала рисования
     private double y1;
-    private javafx.scene.shape.Polygon poly = new javafx.scene.shape.Polygon();
-    private Text text = new Text();
+    private javafx.scene.shape.Polygon poly = new javafx.scene.shape.Polygon(); // сама клетка
+    private Text text = new Text(); // надпись на клетке
 
     Polygon (Double a, Double x1, Double y1){
         this.a = a;
@@ -20,7 +20,6 @@ public class Polygon extends StackPane {
         this.y1 = y1;
         poly.setFill(Color.GRAY);
         text.setFont(Font.font(10));
-        text.setText("gg");
         text.setVisible(false);
         poly.getPoints().addAll(getValues());
         getChildren().addAll(poly,text);
@@ -31,16 +30,14 @@ public class Polygon extends StackPane {
 
     public void open(javafx.scene.input.MouseEvent e){
         if (e == null || e.getButton() == MouseButton.PRIMARY ) {
-            if (!touched){Minesweeper.setOpens(1);
-            System.out.println(Minesweeper.opens);
-            }
+            if (!touched) ViewController.setOpens(1);
             touched = true;
             text.setVisible(true);
             if (mine) {
-                text.setText("Boom");
-                Minesweeper.lose = true;
+                text.setText("Boom"); // взрыв мины
+                ViewController.setLose(true);
             } else {
-                if (numberB > 0) {
+                if (numberB > 0) { // кол-во мин вокруг, если нет, то зеленая клетка
                     text.setText(String.valueOf(numberB));
                     poly.setFill(Color.GRAY);
                 } else {
@@ -53,17 +50,16 @@ public class Polygon extends StackPane {
             if(text.visibleProperty().getValue()){
                 text.setVisible(false);
                 if (mine){
-                    Minesweeper.setDefC(-1);
+                    ViewController.setDefC(-1);
                 }
             }
             else {
                 text.setVisible(true);
-                text.setText("FLAG");
+                text.setText("FLAG"); // флаг на мине
                 if (mine){
-                    Minesweeper.setDefC(1);
+                    ViewController.setDefC(1);
                 }
             }
-            System.out.println(Minesweeper.defC);
         }
     }
 
@@ -82,7 +78,7 @@ public class Polygon extends StackPane {
     public void setNumberB(int num){
         numberB = num;
     }
-
+    // создает один полигон
     public Double[] getValues(){
         double y2 = y1 + a;
         double x3 = x1 + ( a / 2 * Math.sqrt(3));

@@ -6,13 +6,13 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="308.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Minesweeper">
-   <children>
-      <Button fx:id="backTMscreen" layoutX="174.0" layoutY="177.0" mnemonicParsing="false" onAction="#main" text="Back to main menu" />
-      <Label layoutX="148.0" layoutY="117.0" text="YOU WIN!!!!">
-         <font>
-            <Font size="29.0" />
-         </font>
-      </Label>
-   </children>
+<AnchorPane prefHeight="308.0" prefWidth="457.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="toMainMenuController">
+   <Button fx:id="backTMscreen" layoutX="174.0" layoutY="177.0" mnemonicParsing="false" onAction="#main"
+           text="Back to main menu"/>
+   <Label layoutX="148.0" layoutY="117.0" text="YOU WIN!!!!">
+      <font>
+         <Font size="29.0"/>
+      </font>
+   </Label>
 </AnchorPane>

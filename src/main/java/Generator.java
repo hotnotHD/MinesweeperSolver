@@ -1,35 +1,31 @@
 import javafx.scene.Parent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.Random;
 
 public class Generator {
-    int mines;
-    int w = 440;
-    int h = 250;
-    Polygon[][] info = new Polygon[7][11];
-    Pane root = new Pane();
-    int cellsCount = 0;
+    int mines; // кол-во мин
+    int width; // широта окна
+    int height; // высота окна
+    Polygon[][] info; // массив ссылок на клетки
+    Pane root = new Pane(); // само окно
+    int cellsCount = 0; // счетчик
 
-    Generator(int mines) {
-         this.mines = mines;
+    Generator(int mines, int height, int width) {
+        this.width = width;
+        this.height = height;
+        this.mines = mines;
+        info = new Polygon[this.height][this.width];
     }
-
+    // генерирует поле
     public Parent generate(){
 
-
         double a = 20.0;
-        double x = 20.0;
+        double x = 20.0; // начальная позиция
         double y = 40.0;
 
-        for(int j = 0; j < 7; j++) {
-
-            for (int i = 0; i < 11; i++) {
+        for(int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
                 Polygon pl = new Polygon(a, x, y);
                 x += a * Math.sqrt(3.1);
                 root.getChildren().add(pl);
@@ -49,28 +45,20 @@ public class Generator {
         root.getChildren().add(text);
         return root;
     }
-
+    // проставляет бомбы
     public void planting(){
-        int ii = 0;
-        int count = 0;
+        int i = 0;
         Random r = new Random();
-
-        while (ii != mines || ii >= cellsCount) {
-            Polygon gg = (Polygon) root.getChildren().get(r.nextInt(cellsCount - 1));
-
+        while (i != mines && i < cellsCount) {
+            Polygon gg = (Polygon) root.getChildren().get(r.nextInt(cellsCount));
             if(!gg.getMine() && !gg.getTouched()) {
                 gg.plantBomb(true);
-                ii++;
+                i++;
             }
-            if (count == cellsCount - 1) {
-                count = 0;
-            }
-            count++;
         }
         numberB();
-        System.out.println(mines);
     }
-
+    // присваивает клеткам количество бомб вокруг
     public void numberB(){
          int number = 0;
          int[][][] dev = {
@@ -91,13 +79,13 @@ public class Generator {
                      {0,-1}
                  }
          };
-         for ( int y = 0; y < 7; y++){
-             for (int x = 0; x < 11; x++){
+         for ( int y = 0; y < height; y++){
+             for (int x = 0; x < width; x++){
                  Polygon cur = info[y][x];
 
                  for(int i = 0 ; i < 6; i++ ) {
                      if(dev[y % 2][i][0] + y >= 0 && dev[y % 2][i][1] + x >= 0 &&
-                             dev[y % 2][i][0] + y < 7 && dev[y % 2][i][1] + x < 11) {
+                             dev[y % 2][i][0] + y < height && dev[y % 2][i][1] + x < width) {
                          if(info[y + dev[y % 2][i][0]][x + dev[y % 2][i][1]].getMine()){
                              number++;
                          }
@@ -105,14 +93,10 @@ public class Generator {
                  }
                  cur.setNumberB(number);
                  if (cur.getTouched()){
-                     cur.open(null);
+                     cur.open(null); // открывает ту клетку, куда был первый клик
                  }
                  number = 0;
              }
          }
-    }
-
-    public int getMines(){
-       return mines;
     }
 }
