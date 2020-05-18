@@ -18,8 +18,6 @@ public class Minesweeper extends Application {
         launch(args);
     }
 
-    // сделать размеры поля
-
     public static void openWindow (Stage stage, String fxmlLoadName) throws IOException {
         stage.close();
         FXMLLoader fxmlLoader = new FXMLLoader(Minesweeper.class.getResource(fxmlLoadName));
@@ -34,6 +32,4 @@ public class Minesweeper extends Application {
 
         stageW.show();
     }
-
-
 }

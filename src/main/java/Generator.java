@@ -50,9 +50,9 @@ public class Generator {
         int i = 0;
         Random r = new Random();
         while (i != mines && i < cellsCount) {
-            Polygon gg = (Polygon) root.getChildren().get(r.nextInt(cellsCount));
-            if(!gg.getMine() && !gg.getTouched()) {
-                gg.plantBomb(true);
+            Polygon poly = (Polygon) root.getChildren().get(r.nextInt(cellsCount));
+            if(!poly.getMine() && !poly.getTouched()) {
+                poly.plantBomb(true);
                 i++;
             }
         }
