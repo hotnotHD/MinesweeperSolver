@@ -25,7 +25,7 @@ public class ViewController {
     @FXML
     public void initialize(){
         ObservableList<Integer> availableChoices = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9,
-                10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+                10, 11, 12, 13, 14, 15, 16);
         chH.setItems(availableChoices);
         chW.setItems(availableChoices);
         chW.setValue(5);
@@ -55,9 +55,9 @@ public class ViewController {
         // сделать, чтоб размер был зависим от размера поля
         Generator gener = new Generator(mineI, height, width);
         Parent gen = gener.generate();
-        Scene scene = new Scene(gen, (width + 2) * 20 * Math.sqrt(3), (height + 2) * 30);
+        Scene scene = new Scene(gen, (width + 2) * 25 * Math.sqrt(3), (height + 2) * 37);
         stage.setScene(scene);
-        InputStream iconStream = Minesweeper.class.getResourceAsStream("icon.png");
+        InputStream iconStream = Minesweeper.class.getResourceAsStream("mine.png");
         Image image = new Image(iconStream);
         stage.getIcons().add(image);
         stage.show();

@@ -26,7 +26,7 @@ public class Minesweeper extends Application {
         stageW.setScene(new Scene(root1));
         stageW.setTitle("Minesweeper");
 
-        InputStream iconStream = Minesweeper.class.getResourceAsStream("icon.png");
+        InputStream iconStream = Minesweeper.class.getResourceAsStream("mine.png");
         Image image = new Image(iconStream);
         stageW.getIcons().add(image);
 

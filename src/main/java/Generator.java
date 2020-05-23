@@ -1,6 +1,9 @@
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Generator {
@@ -19,14 +22,14 @@ public class Generator {
     }
     // генерирует поле
     public Parent generate(){
-
-        double a = 20.0;
+        Polygon pl;
+        double a = 25.0;
         double x = 20.0; // начальная позиция
         double y = 40.0;
 
         for(int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
-                Polygon pl = new Polygon(a, x, y);
+                pl = new Polygon(a, x, y);
                 x += a * Math.sqrt(3.1);
                 root.getChildren().add(pl);
                 cellsCount++;
@@ -40,6 +43,7 @@ public class Generator {
         }
         Text text = new Text();
         text.setText("Mines:" + mines);
+        text.setFont(Font.font(20));
         text.setX(100.0);
         text.setY(20.0);
         root.getChildren().add(text);
@@ -52,7 +56,7 @@ public class Generator {
         while (i != mines && i < cellsCount) {
             Polygon poly = (Polygon) root.getChildren().get(r.nextInt(cellsCount));
             if(!poly.getMine() && !poly.getTouched()) {
-                poly.plantBomb(true);
+                poly.plantBomb();
                 i++;
             }
         }
