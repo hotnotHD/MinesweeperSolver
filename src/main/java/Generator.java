@@ -13,12 +13,14 @@ public class Generator {
     Polygon[][] info; // массив ссылок на клетки
     Pane root = new Pane(); // само окно
     int cellsCount = 0; // счетчик
+    boolean imageSet; // отключение изображений для работы тестов
 
-    Generator(int mines, int height, int width) {
+    Generator(int mines, int height, int width, boolean imageSet) {
         this.width = width;
         this.height = height;
         this.mines = mines;
         info = new Polygon[this.height][this.width];
+        this.imageSet = imageSet;
     }
     // генерирует поле
     public Parent generate(){
@@ -29,7 +31,7 @@ public class Generator {
 
         for(int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
-                pl = new Polygon(a, x, y);
+                pl = new Polygon(a, x, y, imageSet);
                 x += a * Math.sqrt(3.1);
                 root.getChildren().add(pl);
                 cellsCount++;

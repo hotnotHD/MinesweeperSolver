@@ -8,7 +8,7 @@ class GeneratorTest {
 
     @BeforeAll
     static void setUp(){
-        test = new Generator(3,3,3);
+        test = new Generator(3,3,3, false);
         test.generate();
 
     }
@@ -22,6 +22,8 @@ class GeneratorTest {
 
     @org.junit.jupiter.api.Test
     void planting() {
+        test = new Generator(3,3,3,false);
+        test.generate();
         int countMines = 0;
         test.planting();
         for (int j = 0; j < 3; j++) {

@@ -53,7 +53,7 @@ public class ViewController {
             mineI = height * width - 1;
         }
         // сделать, чтоб размер был зависим от размера поля
-        Generator gener = new Generator(mineI, height, width);
+        Generator gener = new Generator(mineI, height, width, true);
         Parent gen = gener.generate();
         Scene scene = new Scene(gen, (width + 2) * 25 * Math.sqrt(3), (height + 2) * 37);
         stage.setScene(scene);
