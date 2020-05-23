@@ -87,7 +87,6 @@ public class Generator {
          for ( int y = 0; y < height; y++){
              for (int x = 0; x < width; x++){
                  Polygon cur = info[y][x];
-
                  for(int i = 0 ; i < 6; i++ ) {
                      if(dev[y % 2][i][0] + y >= 0 && dev[y % 2][i][1] + x >= 0 &&
                              dev[y % 2][i][0] + y < height && dev[y % 2][i][1] + x < width) {

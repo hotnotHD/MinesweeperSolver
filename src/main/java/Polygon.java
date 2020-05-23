@@ -45,12 +45,13 @@ public class Polygon extends StackPane {
 
     public void open(javafx.scene.input.MouseEvent e){
         if (e == null || e.getButton() == MouseButton.PRIMARY ) {
-            if (!touched) ViewController.setOpens(1);
+            if (!touched) Minesweeper.setOpens(1);
             touched = true;
             text.setVisible(true);
             if (mine) {
                 // взрыв мины
-                ViewController.setLose(true);
+                Minesweeper.setLose(true);
+                mineIm.setVisible(true);
             } else {
                 if (numberB > 0) { // кол-во мин вокруг, если нет, то зеленая клетка
                     text.setText(String.valueOf(numberB));
@@ -66,14 +67,14 @@ public class Polygon extends StackPane {
             if(flagIm.visibleProperty().getValue()){
                 flagIm.setVisible(false);
                 if (mine){
-                    ViewController.setDefC(-1);
+                    Minesweeper.setDefC(-1);
                 }
             }
             else {
                  // флаг на мине
                 flagIm.setVisible(true);
                 if (mine){
-                    ViewController.setDefC(1);
+                    Minesweeper.setDefC(1);
                 }
             }
         }
@@ -98,6 +99,7 @@ public class Polygon extends StackPane {
     public void setNumberB(int num){
         numberB = num;
     }
+
     // создает один полигон
     public Double[] getValues(){
         double y2 = y1 + a;

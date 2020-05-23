@@ -10,6 +10,7 @@ public class toMainMenuController {
     public Button backTMscreen;
 
     public void main() throws IOException {
+        Minesweeper.getStage().close();
         Button g = backTMscreen != null ? backTMscreen : backTMscreen2;
         Stage stage1 =(Stage) g.getScene().getWindow();
         Minesweeper.openWindow(stage1, "mainScene.fxml" );
