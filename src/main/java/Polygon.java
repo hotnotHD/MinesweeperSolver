@@ -5,8 +5,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import java.awt.*;
-import java.io.InputStream;
 
 public class Polygon extends StackPane {
     private boolean touched = false;  // был ли клик по клетке
@@ -33,12 +31,8 @@ public class Polygon extends StackPane {
         poly.getPoints().addAll(getValues());
         poly.setStroke(Color.BLACK);
         poly.setStrokeWidth(1.0);
-        if(imagesIn) setImages();
         if (imagesIn){
-            mineIm = new ImageView(mineImage);
-            flagIm = new ImageView(flagImage);
-            flagIm.setVisible(false);
-            mineIm.setVisible(false);
+            setImages();
             getChildren().addAll(poly, mineIm,flagIm, text);
         }else {
             getChildren().addAll(poly, text);
@@ -119,5 +113,9 @@ public class Polygon extends StackPane {
                 .getResourceAsStream("mine.png"), 20,20,false,true);
         flagImage = new javafx.scene.image.Image(this.getClass()
                 .getResourceAsStream("flag.png"),20,20,false,true);
+        mineIm = new ImageView(mineImage);
+        flagIm = new ImageView(flagImage);
+        flagIm.setVisible(false);
+        mineIm.setVisible(false);
     }
 }
