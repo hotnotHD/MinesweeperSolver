@@ -6,31 +6,31 @@ import javafx.scene.text.Text;
 import java.util.Random;
 
 public class Generator {
-    int mines; // кол-во мин
-    int width; // широта окна
-    int height; // высота окна
-    Polygon[][] info; // массив ссылок на клетки
+    private int mines; // кол-во мин
+    private int width; // широта окна
+    private int height; // высота окна
+    private int cellsCount = 0; // счетчик
+    private boolean imageSet; // отключение изображений для работы тестов
+    Hexagon[][] info; // массив ссылок на клетки
     Pane root = new Pane(); // само окно
-    int cellsCount = 0; // счетчик
-    boolean imageSet; // отключение изображений для работы тестов
 
     Generator(int mines, int height, int width, boolean imageSet) {
         this.width = width;
         this.height = height;
         this.mines = mines;
-        info = new Polygon[this.height][this.width];
+        info = new Hexagon[this.height][this.width];
         this.imageSet = imageSet;
     }
     // генерирует поле
     public Parent generate(){
-        Polygon pl;
+        Hexagon pl;
         double a = 25.0;
         double x = 20.0; // начальная позиция
         double y = 40.0;
 
         for(int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
-                pl = new Polygon(a, x, y, imageSet);
+                pl = new Hexagon(a, x, y, imageSet);
                 x += a * Math.sqrt(3.1);
                 root.getChildren().add(pl);
                 cellsCount++;
@@ -43,6 +43,7 @@ public class Generator {
             }
         }
         Text text = new Text();
+        if (mines > height * width - 1) mines = height * width - 1;
         text.setText("Mines:" + mines);
         text.setFont(Font.font(20));
         text.setX(100.0);
@@ -55,7 +56,7 @@ public class Generator {
         int i = 0;
         Random r = new Random();
         while (i != mines && i < cellsCount) {
-            Polygon poly = (Polygon) root.getChildren().get(r.nextInt(cellsCount));
+            Hexagon poly = (Hexagon) root.getChildren().get(r.nextInt(cellsCount));
             if(!poly.getMine() && !poly.getTouched()) {
                 poly.plantBomb();
                 i++;
@@ -86,7 +87,7 @@ public class Generator {
          };
          for ( int y = 0; y < height; y++){
              for (int x = 0; x < width; x++){
-                 Polygon cur = info[y][x];
+                 Hexagon cur = info[y][x];
                  for(int i = 0 ; i < 6; i++ ) {
                      if(dev[y % 2][i][0] + y >= 0 && dev[y % 2][i][1] + x >= 0 &&
                              dev[y % 2][i][0] + y < height && dev[y % 2][i][1] + x < width) {
@@ -102,5 +103,9 @@ public class Generator {
                  number = 0;
              }
          }
+    }
+
+    public int getMines(){
+        return mines;
     }
 }

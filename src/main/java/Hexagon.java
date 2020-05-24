@@ -2,29 +2,32 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.image.Image;
 
 
-public class Polygon extends StackPane {
+public class Hexagon extends StackPane {
     private boolean touched = false;  // был ли клик по клетке
     private boolean mine; // есть ли в клетке мина
     private int numberB; // кол-во мин вокруг
     private double a; // длина стороны полигона
     private double x1; // позиция начала рисования
     private double y1;
-    private javafx.scene.shape.Polygon poly = new javafx.scene.shape.Polygon(); // сама клетка
+    private Polygon poly = new Polygon(); // сама клетка
     private Text text = new Text(); // надпись на клетке
-    Color[] numC = new Color[]{Color.BLUE, Color.GREEN, Color.DARKRED, Color.DARKBLUE, Color.RED, Color.LIGHTBLUE };
-    javafx.scene.image.Image mineImage;
-    javafx.scene.image.Image flagImage;
-    ImageView mineIm;
+    private Color[] numC = new Color[]
+            {Color.BLUE, Color.GREEN, Color.DARKRED, Color.DARKBLUE, Color.RED, Color.LIGHTBLUE};
+    private ImageView mineIm;
     private ImageView flagIm;
+    private boolean imagesIn;
 
-    Polygon (Double a, Double x1, Double y1, boolean imagesIn){
+    Hexagon(Double a, Double x1, Double y1, boolean imagesIn){
         this.a = a;
         this.x1 = x1;
         this.y1 = y1;
+        this.imagesIn = imagesIn;
         poly.setFill(Color.GRAY);
         text.setFont(Font.font(25));
         text.setVisible(false);
@@ -51,7 +54,7 @@ public class Polygon extends StackPane {
             if (mine) {
                 // взрыв мины
                 Minesweeper.setLose(true);
-                mineIm.setVisible(true);
+                if (imagesIn)mineIm.setVisible(true);
             } else {
                 if (numberB > 0) { // кол-во мин вокруг, если нет, то зеленая клетка
                     text.setText(String.valueOf(numberB));
@@ -111,10 +114,10 @@ public class Polygon extends StackPane {
     }
 
     public void setImages(){
-        mineImage = new javafx.scene.image.Image(this.getClass()
-                .getResourceAsStream("mine.png"), 20,20,false,true);
-        flagImage = new javafx.scene.image.Image(this.getClass()
-                .getResourceAsStream("flag.png"),20,20,false,true);
+        Image mineImage = new Image(this.getClass().getResourceAsStream("mine.png"),
+                20, 20, false, true);
+        Image flagImage = new Image(this.getClass().getResourceAsStream("flag.png"),
+                20, 20, false, true);
         mineIm = new ImageView(mineImage);
         flagIm = new ImageView(flagImage);
         flagIm.setVisible(false);

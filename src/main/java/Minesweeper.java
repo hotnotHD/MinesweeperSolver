@@ -17,7 +17,7 @@ public class Minesweeper extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        openWindow(primaryStage, "mainScene.fxml" );
+        openWindow(primaryStage, "mainMenu.fxml");
     }
 
     public static void main(String[] args) {
@@ -42,8 +42,6 @@ public class Minesweeper extends Application {
 
     public static void fireStarter(int height, int width, int mineI){
         stage = new Stage();
-        if (mineI > height * width - 1) mineI = height * width - 1;
-        // сделать, чтоб размер был зависим от размера поля
         Generator gener = new Generator(mineI, height, width, true);
         Parent gen = gener.generate();
         Scene scene = new Scene(gen, (width + 2) * 25 * Math.sqrt(3), (height + 2) * 37);
@@ -53,6 +51,7 @@ public class Minesweeper extends Application {
         stage.getIcons().add(image);
         stage.setTitle("Minesweeper");
         stage.show();
+        mineI = gener.getMines();
         final boolean[] cl = {true};
         int finalMineI = mineI;
         gener.root.setOnMouseClicked(e -> {
@@ -86,10 +85,10 @@ public class Minesweeper extends Application {
         });
     }
     public static void openAll(Generator gen){
-        Polygon[][] info = gen.info;
-        for (Polygon[] polygons : info) {
-            for (Polygon polygon : polygons) {
-                polygon.open(null);
+        Hexagon[][] info = gen.info;
+        for (Hexagon[] hexagons : info) {
+            for (Hexagon hexagon : hexagons) {
+                hexagon.open(null);
             }
         }
     }

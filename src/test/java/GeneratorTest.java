@@ -6,6 +6,21 @@ import org.junit.jupiter.api.Test;
 class GeneratorTest {
     private static Generator test;
 
+    public int mineCount(Generator field){
+        int countMines = 0;
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+                if (field.info[i][j].getMine()) countMines++;
+            }
+        }
+        return countMines;
+    }
+
+    public void fastPlant(Generator field){
+        field.generate();
+        field.planting();
+    }
+
     @BeforeAll
     static void setUp(){
         test = new Generator(3,3,3, false);
@@ -15,23 +30,29 @@ class GeneratorTest {
 
     @Test
     void generate() {
-        Polygon[][] cells = test.info;
-
+        Hexagon[][] cells = test.info;
         Assertions.assertEquals(9, cells[0].length + cells[1].length + cells[2].length );
+        Assertions.assertEquals(3, cells[0].length);
+        Assertions.assertEquals(3, cells[1].length);
+        Assertions.assertEquals(3, cells[2].length);
     }
 
     @org.junit.jupiter.api.Test
     void planting() {
         test = new Generator(3,3,3,false);
+        fastPlant(test);
+        Assertions.assertEquals(3, mineCount(test));
+        test = new Generator(4,3,3,false);
+        fastPlant(test);
+        Assertions.assertEquals(4, mineCount(test));
+        test = new Generator(20,3,3,false);
+        fastPlant(test);
+        Assertions.assertEquals(8, mineCount(test));
+        test = new Generator(20,3,3,false);
         test.generate();
-        int countMines = 0;
+        test.info[0][0].open(null);
         test.planting();
-        for (int j = 0; j < 3; j++) {
-            for (int i = 0; i < 3; i++) {
-                if (test.info[i][j].getMine()) countMines++;
-            }
-        }
-        Assertions.assertEquals(3, countMines);
+        Assertions.assertEquals(8, mineCount(test));
     }
 
     @org.junit.jupiter.api.Test

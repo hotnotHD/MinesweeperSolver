@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="135.0" prefWidth="268.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="toMainMenuController">
-   <Button fx:id="backTMscreen" layoutX="80.0" layoutY="92.0" mnemonicParsing="false" onAction="#main" text="Back to main menu" />
+   <Button fx:id="backTMmenu" layoutX="80.0" layoutY="92.0" mnemonicParsing="false" onAction="#main" text="Back to main menu" />
    <Label layoutX="54.0" layoutY="28.0" text="YOU WIN!!!!">
       <font>
          <Font size="29.0" />

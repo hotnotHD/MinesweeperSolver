@@ -6,13 +6,13 @@ import java.io.IOException;
 
 public class toMainMenuController {
     @FXML
-    public Button backTMscreen2;
-    public Button backTMscreen;
+    public Button backTMmenu2;
+    public Button backTMmenu;
 
     public void main() throws IOException {
         Minesweeper.getStage().close();
-        Button g = backTMscreen != null ? backTMscreen : backTMscreen2;
+        Button g = backTMmenu != null ? backTMmenu : backTMmenu2;
         Stage stage1 =(Stage) g.getScene().getWindow();
-        Minesweeper.openWindow(stage1, "mainScene.fxml" );
+        Minesweeper.openWindow(stage1, "mainMenu.fxml");
     }
 }
