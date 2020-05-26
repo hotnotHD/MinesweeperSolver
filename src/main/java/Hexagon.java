@@ -7,7 +7,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 
-
 public class Hexagon extends StackPane {
     private boolean touched = false;  // был ли клик по клетке
     private boolean mine; // есть ли в клетке мина
@@ -43,17 +42,16 @@ public class Hexagon extends StackPane {
         setTranslateX(x1);
         setTranslateY(y1);
         setOnMouseClicked(this::open);
-
     }
 
     public void open(javafx.scene.input.MouseEvent e){
         if (e == null || e.getButton() == MouseButton.PRIMARY ) {
-            if (!touched) Minesweeper.setOpens(1);
+            if (!touched) Minesweeper.flags.setOpens(1);
             touched = true;
             text.setVisible(true);
             if (mine) {
                 // взрыв мины
-                Minesweeper.setLose(true);
+                Minesweeper.flags.setLose(true);
                 if (imagesIn)mineIm.setVisible(true);
             } else {
                 if (numberB > 0) { // кол-во мин вокруг, если нет, то зеленая клетка
@@ -70,14 +68,14 @@ public class Hexagon extends StackPane {
             if(flagIm.visibleProperty().getValue()){
                 flagIm.setVisible(false);
                 if (mine){
-                    Minesweeper.setDefC(-1);
+                    Minesweeper.flags.setDefC(-1);
                 }
             }
             else {
                  // флаг на мине
                 flagIm.setVisible(true);
                 if (mine){
-                    Minesweeper.setDefC(1);
+                    Minesweeper.flags.setDefC(1);
                 }
             }
         }

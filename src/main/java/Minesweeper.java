@@ -10,10 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Minesweeper extends Application {
-    private static boolean lose = false; // условие поражения
-    private static int opens; // количество открытых клеток
-    private static int defC; // количество обезвреженных бомб
-    private static Stage stage;
+
+    public static Flags flags = new Flags(new Stage());
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -41,16 +39,16 @@ public class Minesweeper extends Application {
     }
 
     public static void fireStarter(int height, int width, int mineI){
-        stage = new Stage();
+        flags.newFlags();
         Generator gener = new Generator(mineI, height, width, true);
         Parent gen = gener.generate();
         Scene scene = new Scene(gen, (width + 2) * 25 * Math.sqrt(3), (height + 2) * 37);
-        stage.setScene(scene);
+        flags.getStage().setScene(scene);
         InputStream iconStream = Minesweeper.class.getResourceAsStream("mine.png");
         Image image = new Image(iconStream);
-        stage.getIcons().add(image);
-        stage.setTitle("Minesweeper");
-        stage.show();
+        flags.getStage().getIcons().add(image);
+        flags.getStage().setTitle("Minesweeper");
+        flags.getStage().show();
         mineI = gener.getMines();
         final boolean[] cl = {true};
         int finalMineI = mineI;
@@ -61,26 +59,23 @@ public class Minesweeper extends Application {
                     gener.planting();
                     cl[0] = false;
                 }
-                if (lose){
+                if (flags.getLose()){
                     try {
                         openAll(gener);
                         Minesweeper.openWindow(null, "loseScreen.fxml");
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    lose = false;
-                    opens = 0;
-                    defC = 0;
+
                 }
             }
-            if (finalMineI == defC && opens == height * width - finalMineI){
+            if (finalMineI == flags.getDefC() && flags.getOpens() == height * width - finalMineI){
                 try {
                     Minesweeper.openWindow(null, "winScreen.fxml");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                opens = 0;
-                defC = 0;
+
             }
         });
     }
@@ -93,19 +88,4 @@ public class Minesweeper extends Application {
         }
     }
 
-    public static void setDefC(int c){
-        defC += c;
-    }
-
-    public static void setOpens(int c){
-        opens += c;
-    }
-
-    public static void setLose(Boolean b){
-        lose = b;
-    }
-
-    public static Stage getStage(){
-        return stage;
-    }
 }

@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 
 class GeneratorTest {
     private static Generator test;
@@ -21,15 +19,10 @@ class GeneratorTest {
         field.planting();
     }
 
-    @BeforeAll
-    static void setUp(){
-        test = new Generator(3,3,3, false);
-        test.generate();
-
-    }
-
     @Test
     void generate() {
+        test = new Generator(3,3,3, false);
+        test.generate();
         Hexagon[][] cells = test.info;
         Assertions.assertEquals(9, cells[0].length + cells[1].length + cells[2].length );
         Assertions.assertEquals(3, cells[0].length);
@@ -57,6 +50,8 @@ class GeneratorTest {
 
     @org.junit.jupiter.api.Test
     void numberB() {
+        test = new Generator(3,3,3, false);
+        test.generate();
         test.info[0][0].plantBomb();
         test.info[2][2].plantBomb();
         test.info[1][2].plantBomb();

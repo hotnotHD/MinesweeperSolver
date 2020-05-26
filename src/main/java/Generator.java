@@ -9,10 +9,28 @@ public class Generator {
     private int mines; // кол-во мин
     private int width; // широта окна
     private int height; // высота окна
-    private int cellsCount = 0; // счетчик
     private boolean imageSet; // отключение изображений для работы тестов
-    Hexagon[][] info; // массив ссылок на клетки
-    Pane root = new Pane(); // само окно
+    public Hexagon[][] info; // массив ссылок на клетки
+    public Pane root = new Pane(); // само окно
+    private int[][][] dev = {
+            {
+                    {-1,-1},
+                    {-1,0},
+                    {0,1},
+                    {1,0},
+                    {1,-1},
+                    {0,-1}
+            },
+            {
+                    {-1,0},
+                    {-1,1},
+                    {0,1},
+                    {1,1},
+                    {1,0},
+                    {0,-1}
+            }
+    };
+    int heWi;
 
     Generator(int mines, int height, int width, boolean imageSet) {
         this.width = width;
@@ -20,30 +38,14 @@ public class Generator {
         this.mines = mines;
         info = new Hexagon[this.height][this.width];
         this.imageSet = imageSet;
+        heWi = height * width;
     }
     // генерирует поле
     public Parent generate(){
-        Hexagon pl;
-        double a = 25.0;
-        double x = 20.0; // начальная позиция
-        double y = 40.0;
-
-        for(int j = 0; j < height; j++) {
-            for (int i = 0; i < width; i++) {
-                pl = new Hexagon(a, x, y, imageSet);
-                x += a * Math.sqrt(3.1);
-                root.getChildren().add(pl);
-                cellsCount++;
-                info[j][i] = pl;
-            }
-            y += a * 1.5;
-            x = 20.0;
-            if (j % 2 == 0) {
-                x += a * Math.sqrt(3) / 2;
-            }
-        }
         Text text = new Text();
-        if (mines > height * width - 1) mines = height * width - 1;
+        Drawing dr = new Drawing(width, height, imageSet, root, info);
+        dr.drow();
+        if (mines > heWi - 1) mines = heWi - 1;
         text.setText("Mines:" + mines);
         text.setFont(Font.font(20));
         text.setX(100.0);
@@ -55,8 +57,8 @@ public class Generator {
     public void planting(){
         int i = 0;
         Random r = new Random();
-        while (i != mines && i < cellsCount) {
-            Hexagon poly = (Hexagon) root.getChildren().get(r.nextInt(cellsCount));
+        while (i != mines && i < heWi) {
+            Hexagon poly = (Hexagon) root.getChildren().get(r.nextInt(heWi));
             if(!poly.getMine() && !poly.getTouched()) {
                 poly.plantBomb();
                 i++;
@@ -67,24 +69,6 @@ public class Generator {
     // присваивает клеткам количество бомб вокруг
     public void numberB(){
          int number = 0;
-         int[][][] dev = {
-                 {
-                     {-1,-1},
-                     {-1,0},
-                     {0,1},
-                     {1,0},
-                     {1,-1},
-                     {0,-1}
-                },
-                 {
-                     {-1,0},
-                     {-1,1},
-                     {0,1},
-                     {1,1},
-                     {1,0},
-                     {0,-1}
-                 }
-         };
          for ( int y = 0; y < height; y++){
              for (int x = 0; x < width; x++){
                  Hexagon cur = info[y][x];
