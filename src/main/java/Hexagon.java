@@ -46,14 +46,15 @@ public class Hexagon extends StackPane {
 
     public void open(javafx.scene.input.MouseEvent e){
         if (e == null || e.getButton() == MouseButton.PRIMARY ) {
-            if (!touched) Minesweeper.flags.setOpens(1);
+            if (!touched && imagesIn) Generator.flag.opens++;
             touched = true;
-            text.setVisible(true);
             if (mine) {
                 // взрыв мины
-                Minesweeper.flags.setLose(true);
+                Generator.flag.lose = true;
                 if (imagesIn)mineIm.setVisible(true);
             } else {
+                if (imagesIn) flagIm.setVisible(false);
+                text.setVisible(true);
                 if (numberB > 0) { // кол-во мин вокруг, если нет, то зеленая клетка
                     text.setText(String.valueOf(numberB));
                     poly.setFill(Color.LIGHTGRAY);
@@ -68,14 +69,14 @@ public class Hexagon extends StackPane {
             if(flagIm.visibleProperty().getValue()){
                 flagIm.setVisible(false);
                 if (mine){
-                    Minesweeper.flags.setDefC(-1);
+                    Generator.flag.defC--;
                 }
             }
             else {
                  // флаг на мине
                 flagIm.setVisible(true);
                 if (mine){
-                    Minesweeper.flags.setDefC(1);
+                    Generator.flag.defC++;
                 }
             }
         }

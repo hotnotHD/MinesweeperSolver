@@ -2,6 +2,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.Random;
 
@@ -12,6 +13,7 @@ public class Generator {
     private boolean imageSet; // отключение изображений для работы тестов
     public Hexagon[][] info; // массив ссылок на клетки
     public Pane root = new Pane(); // само окно
+    public static Flags flag;
     private int[][][] dev = {
             {
                     {-1,-1},
@@ -39,6 +41,7 @@ public class Generator {
         info = new Hexagon[this.height][this.width];
         this.imageSet = imageSet;
         heWi = height * width;
+        if(imageSet) {flag = new Flags(new Stage());}
     }
     // генерирует поле
     public Parent generate(){

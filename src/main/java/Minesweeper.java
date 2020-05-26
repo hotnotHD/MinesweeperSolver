@@ -11,7 +11,7 @@ import java.io.InputStream;
 
 public class Minesweeper extends Application {
 
-    public static Flags flags = new Flags(new Stage());
+
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -39,16 +39,15 @@ public class Minesweeper extends Application {
     }
 
     public static void fireStarter(int height, int width, int mineI){
-        flags.newFlags();
         Generator gener = new Generator(mineI, height, width, true);
         Parent gen = gener.generate();
         Scene scene = new Scene(gen, (width + 2) * 25 * Math.sqrt(3), (height + 2) * 37);
-        flags.getStage().setScene(scene);
+        Generator.flag.stage.setScene(scene);
         InputStream iconStream = Minesweeper.class.getResourceAsStream("mine.png");
         Image image = new Image(iconStream);
-        flags.getStage().getIcons().add(image);
-        flags.getStage().setTitle("Minesweeper");
-        flags.getStage().show();
+        Generator.flag.stage.getIcons().add(image);
+        Generator.flag.stage.setTitle("Minesweeper");
+        Generator.flag.stage.show();
         mineI = gener.getMines();
         final boolean[] cl = {true};
         int finalMineI = mineI;
@@ -59,7 +58,7 @@ public class Minesweeper extends Application {
                     gener.planting();
                     cl[0] = false;
                 }
-                if (flags.getLose()){
+                if (Generator.flag.lose){
                     try {
                         openAll(gener);
                         Minesweeper.openWindow(null, "loseScreen.fxml");
@@ -69,7 +68,7 @@ public class Minesweeper extends Application {
 
                 }
             }
-            if (finalMineI == flags.getDefC() && flags.getOpens() == height * width - finalMineI){
+            if (finalMineI == Generator.flag.defC && Generator.flag.opens == height * width - finalMineI){
                 try {
                     Minesweeper.openWindow(null, "winScreen.fxml");
                 } catch (IOException ex) {
