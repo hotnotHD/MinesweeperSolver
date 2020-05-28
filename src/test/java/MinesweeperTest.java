@@ -1,8 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import javafx.stage.Screen;
 
-class GeneratorTest {
+class MinesweeperTest {
     private static Generator test;
 
     public int mineCount(Generator field){

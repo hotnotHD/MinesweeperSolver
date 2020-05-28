@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class toMainMenuController {
+public class ToMainMenuController {
     @FXML
     public Button backTMmenu2;
     public Button backTMmenu;

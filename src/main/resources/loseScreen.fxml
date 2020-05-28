@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="135.0" prefWidth="268.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="toMainMenuController">
+<AnchorPane prefHeight="135.0" prefWidth="268.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ToMainMenuController">
    <Button fx:id="backTMmenu2" layoutX="79.0" layoutY="91.0" mnemonicParsing="false" onAction="#main" text="Back to main menu" />
    <Label layoutX="53.0" layoutY="31.0" text="YOU LOSE!!!">
       <font>
