@@ -11,9 +11,9 @@ public class Generator {
     private int width; // широта окна
     private int height; // высота окна
     private boolean imageSet; // отключение изображений для работы тестов
-    public Hexagon[][] info; // массив ссылок на клетки
-    public Pane root = new Pane(); // само окно
-    public static Flags flag;
+    private Hexagon[][] info; // массив ссылок на клетки
+    private Pane root = new Pane(); // само окно
+    private static Flags flag;
     private int[][][] dev = {
             {
                     {-1,-1},
@@ -94,5 +94,17 @@ public class Generator {
 
     public int getMines(){
         return mines;
+    }
+
+    public static Flags getFlag(){
+        return flag;
+    }
+
+    public Pane getRoot(){
+        return root;
+    }
+
+    public Hexagon[][] getInfo(){
+        return info;
     }
 }

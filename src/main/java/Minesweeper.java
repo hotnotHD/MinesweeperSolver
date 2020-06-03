@@ -42,23 +42,23 @@ public class Minesweeper extends Application {
         Generator gener = new Generator(mineI, height, width, true);
         Parent gen = gener.generate();
         Scene scene = new Scene(gen, (width + 2) * 25 * Math.sqrt(3), (height + 2) * 37);
-        Generator.flag.stage.setScene(scene);
+        Generator.getFlag().getStage().setScene(scene);
         InputStream iconStream = Minesweeper.class.getResourceAsStream("mine.png");
         Image image = new Image(iconStream);
-        Generator.flag.stage.getIcons().add(image);
-        Generator.flag.stage.setTitle("Minesweeper");
-        Generator.flag.stage.show();
+        Generator.getFlag().getStage().getIcons().add(image);
+        Generator.getFlag().getStage().setTitle("Minesweeper");
+        Generator.getFlag().getStage().show();
         mineI = gener.getMines();
         final boolean[] cl = {true};
         int finalMineI = mineI;
-        gener.root.setOnMouseClicked(e -> {
+        gener.getRoot().setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 String f = e.getTarget().getClass().getName();
                 if (cl[0] && f.equals("javafx.scene.shape.Polygon")) {
                     gener.planting();
                     cl[0] = false;
                 }
-                if (Generator.flag.lose){
+                if (Generator.getFlag().getLose()){
                     try {
                         openAll(gener);
                         Minesweeper.openWindow(null, "loseScreen.fxml");
@@ -68,7 +68,7 @@ public class Minesweeper extends Application {
 
                 }
             }
-            if (finalMineI == Generator.flag.defC && Generator.flag.opens == height * width - finalMineI){
+            if (finalMineI == Generator.getFlag().getDefC() && Generator.getFlag().getOpens() == height * width - finalMineI){
                 try {
                     Minesweeper.openWindow(null, "winScreen.fxml");
                 } catch (IOException ex) {
@@ -79,7 +79,7 @@ public class Minesweeper extends Application {
         });
     }
     public static void openAll(Generator gen){
-        Hexagon[][] info = gen.info;
+        Hexagon[][] info = gen.getInfo();
         for (Hexagon[] hexagons : info) {
             for (Hexagon hexagon : hexagons) {
                 hexagon.open(null);

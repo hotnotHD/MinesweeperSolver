@@ -5,7 +5,7 @@ public class Drawing {
     private int height; // высота окна
     private boolean imageSet;
     private Pane root;
-    Hexagon[][] info;
+    private Hexagon[][] info;
 
     Drawing(int width, int height, boolean imageSet, Pane root, Hexagon[][] info){
         this.height = height;

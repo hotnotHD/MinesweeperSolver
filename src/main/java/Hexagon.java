@@ -11,10 +11,7 @@ public class Hexagon extends StackPane {
     private boolean touched = false;  // был ли клик по клетке
     private boolean mine; // есть ли в клетке мина
     private int numberB; // кол-во мин вокруг
-    private double a; // длина стороны полигона
-    private double x1; // позиция начала рисования
-    private double y1;
-    private Polygon poly = new Polygon(); // сама клетка
+    private Polygon poly; // сама клетка
     private Text text = new Text(); // надпись на клетке
     private Color[] numC = new Color[]
             {Color.BLUE, Color.GREEN, Color.DARKRED, Color.DARKBLUE, Color.RED, Color.LIGHTBLUE};
@@ -22,17 +19,11 @@ public class Hexagon extends StackPane {
     private ImageView flagIm;
     private boolean imagesIn;
 
-    Hexagon(Double a, Double x1, Double y1, boolean imagesIn){
-        this.a = a;
-        this.x1 = x1;
-        this.y1 = y1;
+    Hexagon(Double a, Double x1, Double y1, boolean imagesIn) {
         this.imagesIn = imagesIn;
-        poly.setFill(Color.GRAY);
+        poly = new HexCell(a, x1, y1).getPoly();
         text.setFont(Font.font(25));
         text.setVisible(false);
-        poly.getPoints().addAll(getValues());
-        poly.setStroke(Color.BLACK);
-        poly.setStrokeWidth(1.0);
         if (imagesIn){
             setImages();
             getChildren().addAll(poly, mineIm,flagIm, text);
@@ -46,11 +37,11 @@ public class Hexagon extends StackPane {
 
     public void open(javafx.scene.input.MouseEvent e){
         if (e == null || e.getButton() == MouseButton.PRIMARY ) {
-            if (!touched && imagesIn) Generator.flag.opens++;
+            if (!touched && imagesIn) Generator.getFlag().setOpens(1);
             touched = true;
             if (mine) {
                 // взрыв мины
-                Generator.flag.lose = true;
+                Generator.getFlag().setLose(true);
                 if (imagesIn)mineIm.setVisible(true);
             } else {
                 if (imagesIn) flagIm.setVisible(false);
@@ -69,14 +60,14 @@ public class Hexagon extends StackPane {
             if(flagIm.visibleProperty().getValue()){
                 flagIm.setVisible(false);
                 if (mine){
-                    Generator.flag.defC--;
+                    Generator.getFlag().setDefC(-1);
                 }
             }
             else {
                  // флаг на мине
                 flagIm.setVisible(true);
                 if (mine){
-                    Generator.flag.defC++;
+                    Generator.getFlag().setDefC(1);
                 }
             }
         }
@@ -102,15 +93,7 @@ public class Hexagon extends StackPane {
         numberB = num;
     }
 
-    // создает один полигон
-    public Double[] getValues(){
-        double y2 = y1 + a;
-        double x3 = x1 + ( a / 2 * Math.sqrt(3));
-        double y3 = y1 + a * 1.5;
-        double x4 = x1 + (a * Math.sqrt(3));
-        double y6 = y1 - a * 0.5;
-        return new Double[] {x1,y1, x1,y2, x3,y3, x4, y2, x4,y1, x3, y6};
-    }
+
 
     public void setImages(){
         Image mineImage = new Image(this.getClass().getResourceAsStream("mine.png"),

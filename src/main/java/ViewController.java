@@ -6,11 +6,15 @@ import javafx.stage.Stage;
 
 public class ViewController {
     @FXML
-    public Slider sliderM;
-    public Label infoMS;
-    public Button newB;
-    public ComboBox<Integer> chH;
-    public ComboBox<Integer> chW;
+    private Slider sliderM;
+    @FXML
+    private Label infoMS;
+    @FXML
+    private Button newB;
+    @FXML
+    private ComboBox<Integer> chH;
+    @FXML
+    private ComboBox<Integer> chW;
 
     @FXML
     public void initialize(){
