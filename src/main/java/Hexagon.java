@@ -14,7 +14,7 @@ public class Hexagon extends StackPane {
     private Polygon poly; // сама клетка
     private Text text = new Text(); // надпись на клетке
     private Color[] numC = new Color[]
-            {Color.BLUE, Color.GREEN, Color.DARKRED, Color.DARKBLUE, Color.RED, Color.LIGHTBLUE};
+            {Color.BLUE, Color.GREEN, Color.DARKRED, Color.DARKBLUE, Color.RED, Color.LIGHTBLUE, Color.RED, Color.RED};
     private ImageView mineIm;
     private ImageView flagIm;
     private boolean imagesIn;
@@ -92,7 +92,6 @@ public class Hexagon extends StackPane {
     public void setNumberB(int num){
         numberB = num;
     }
-
 
 
     public void setImages(){

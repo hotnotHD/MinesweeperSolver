@@ -11,7 +11,8 @@ import java.io.InputStream;
 
 public class Minesweeper extends Application {
 
-
+    static private Generator gener;
+    static private boolean firstCl = true;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -39,7 +40,7 @@ public class Minesweeper extends Application {
     }
 
     public static void fireStarter(int height, int width, int mineI){
-        Generator gener = new Generator(mineI, height, width, true);
+        gener = new Generator(mineI, height, width, true);
         Parent gen = gener.generate();
         Scene scene = new Scene(gen, (width + 2) * 25 * Math.sqrt(3), (height + 2) * 37);
         Generator.getFlag().getStage().setScene(scene);
@@ -49,14 +50,13 @@ public class Minesweeper extends Application {
         Generator.getFlag().getStage().setTitle("Minesweeper");
         Generator.getFlag().getStage().show();
         mineI = gener.getMines();
-        final boolean[] cl = {true};
         int finalMineI = mineI;
         gener.getRoot().setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 String f = e.getTarget().getClass().getName();
-                if (cl[0] && f.equals("javafx.scene.shape.Polygon")) {
+                if (f.equals("javafx.scene.shape.Polygon") && firstCl) {
                     gener.planting();
-                    cl[0] = false;
+                    firstCl = false;
                 }
                 if (Generator.getFlag().getLose()){
                     try {
@@ -78,6 +78,18 @@ public class Minesweeper extends Application {
             }
         });
     }
+
+    public static int openCur(int h, int w){
+        if(firstCl) {
+            gener.planting();
+            firstCl = false;
+        }
+        Hexagon[][] info = gener.getInfo(); // вынести наверх, оптимизировать
+        info[h][w].open(null);
+        if(info[h][w].getMine()) return 9;
+        else return info[h][w].getNumberB();
+    }
+
     public static void openAll(Generator gen){
         Hexagon[][] info = gen.getInfo();
         for (Hexagon[] hexagons : info) {

@@ -24,15 +24,12 @@ public class Drawing {
         for(int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
                 pl = new Hexagon(a, x, y, imageSet);
-                x += a * Math.sqrt(3);
+                x += a;
                 root.getChildren().add(pl);
                 info[j][i] = pl;
             }
-            y += a * 1.5;
+            y += a;
             x = 20.0;
-            if (j % 2 == 0) {
-                x += a * Math.sqrt(3) / 2;
-            }
         }
     }
 }

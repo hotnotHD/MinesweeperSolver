@@ -16,6 +16,8 @@ public class ViewController {
     @FXML
     private ComboBox<Integer> chW;
 
+    private int cc;
+
     @FXML
     public void initialize(){
         ObservableList<Integer> availableChoices = FXCollections.observableArrayList( 2, 3, 4, 5, 6, 7, 8, 9,
@@ -39,5 +41,7 @@ public class ViewController {
         stage1.close();
         // open new game
         Minesweeper.fireStarter(chH.getValue(), chW.getValue(), Integer.parseInt(mineS));
+        Solver gg = new Solver(chH.getValue(), chW.getValue(), cc);
+        gg.start();
     }
 }

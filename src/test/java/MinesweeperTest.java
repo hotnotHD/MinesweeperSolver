@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 class MinesweeperTest {
     private static Generator test;
 
-    public int mineCount(Generator field){
+    int mineCount(Generator field){
         int countMines = 0;
         Hexagon[][] info = field.getInfo();
         for (int j = 0; j < 3; j++) {
@@ -15,7 +15,7 @@ class MinesweeperTest {
         return countMines;
     }
 
-    public void fastPlant(Generator field){
+    void fastPlant(Generator field){
         field.generate();
         field.planting();
     }
@@ -50,7 +50,7 @@ class MinesweeperTest {
         Assertions.assertEquals(8, mineCount(test));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void numberB() {
         test = new Generator(3,3,3, false);
         test.generate();

@@ -23,11 +23,8 @@ public class HexCell {
 
     // создает один полигон
     public Double[] getValues(){
-        double y2 = y1 + a;
-        double x3 = x1 + ( a / 2 * Math.sqrt(3));
-        double y3 = y1 + a * 1.5;
-        double x4 = x1 + (a * Math.sqrt(3));
-        double y6 = y1 - a * 0.5;
-        return new Double[] {x1,y1, x1,y2, x3,y3, x4, y2, x4,y1, x3, y6};
+        double x2 = x1 + a;
+        double y2 = y1 - a;
+        return new Double[] {x1,y1, x2,y1, x2,y2, x1,y2};
     }
 }

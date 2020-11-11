@@ -14,23 +14,15 @@ public class Generator {
     private Hexagon[][] info; // массив ссылок на клетки
     private Pane root = new Pane(); // само окно
     private static Flags flag;
-    private int[][][] dev = {
-            {
+    private int[][] dev = {
                     {-1,-1},
-                    {-1,0},
-                    {0,1},
-                    {1,0},
-                    {1,-1},
-                    {0,-1}
-            },
-            {
                     {-1,0},
                     {-1,1},
                     {0,1},
                     {1,1},
                     {1,0},
+                    {1,-1},
                     {0,-1}
-            }
     };
     int heWi;
 
@@ -75,10 +67,10 @@ public class Generator {
          for ( int y = 0; y < height; y++){
              for (int x = 0; x < width; x++){
                  Hexagon cur = info[y][x];
-                 for(int i = 0 ; i < 6; i++ ) {
-                     if(dev[y % 2][i][0] + y >= 0 && dev[y % 2][i][1] + x >= 0 &&
-                             dev[y % 2][i][0] + y < height && dev[y % 2][i][1] + x < width) {
-                         if(info[y + dev[y % 2][i][0]][x + dev[y % 2][i][1]].getMine()){
+                 for(int i = 0 ; i < 8; i++ ) {
+                     if(dev[i][0] + y >= 0 && dev[i][1] + x >= 0 &&
+                             dev[i][0] + y < height && dev[i][1] + x < width) {
+                         if(info[y + dev[i][0]][x + dev[i][1]].getMine()){
                              number++;
                          }
                      }
