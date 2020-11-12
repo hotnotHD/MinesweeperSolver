@@ -80,13 +80,13 @@ public class Minesweeper extends Application {
     }
 
     public static int openCur(int h, int w){
+        Hexagon[][] info = gener.getInfo(); // оптимизировать
+        info[h][w].open(null);
         if(firstCl) {
             gener.planting();
             firstCl = false;
         }
-        Hexagon[][] info = gener.getInfo(); // вынести наверх, оптимизировать
-        info[h][w].open(null);
-        if(info[h][w].getMine()) return 9;
+        if(info[h][w].getMine()) return 10;
         else return info[h][w].getNumberB();
     }
 
