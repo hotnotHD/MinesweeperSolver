@@ -37,12 +37,13 @@ public class Minesweeper extends Application {
             stageW.initModality(Modality.APPLICATION_MODAL);
         }
         stageW.show();
+        firstCl = true;
     }
 
     public static void fireStarter(int height, int width, int mineI){
         gener = new Generator(mineI, height, width, true);
         Parent gen = gener.generate();
-        Scene scene = new Scene(gen, (width + 2) * 25 * Math.sqrt(3), (height + 2) * 37);
+        Scene scene = new Scene(gen, (width + 2) * 25 , (height + 2) * 30);
         Generator.getFlag().getStage().setScene(scene);
         InputStream iconStream = Minesweeper.class.getResourceAsStream("mine.png");
         Image image = new Image(iconStream);
@@ -81,13 +82,13 @@ public class Minesweeper extends Application {
 
     public static int openCur(int h, int w){
         Hexagon[][] info = gener.getInfo(); // оптимизировать
-        info[h][w].open(null);
+        info[w][h].open(null);
         if(firstCl) {
             gener.planting();
             firstCl = false;
         }
-        if(info[h][w].getMine()) return 10;
-        else return info[h][w].getNumberB();
+        if(info[w][h].getMine()) return 10;
+        else return info[w][h].getNumberB();
     }
 
     public static void openAll(Generator gen){

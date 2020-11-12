@@ -21,11 +21,11 @@ public class ViewController {
     @FXML
     public void initialize(){
         ObservableList<Integer> availableChoices = FXCollections.observableArrayList( 2, 3, 4, 5, 6, 7, 8, 9,
-                10, 11, 12, 13, 14, 15, 16);
+                10, 11, 12, 13, 14, 15, 16, 17, 18, 30);
         chH.setItems(availableChoices);
         chW.setItems(availableChoices);
-        chW.setValue(5);
-        chH.setValue(5);
+        chW.setValue(7);
+        chH.setValue(7);
     }
 
     public void change() {
