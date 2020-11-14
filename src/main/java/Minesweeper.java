@@ -4,8 +4,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -75,7 +78,6 @@ public class Minesweeper extends Application {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
             }
         });
     }
@@ -89,6 +91,11 @@ public class Minesweeper extends Application {
         }
         if(info[w][h].getMine()) return 10;
         else return info[w][h].getNumberB();
+    }
+
+    public static void flagCur(int h, int w){
+        Hexagon[][] info = gener.getInfo(); // оптимизировать
+        info[w][h].setFlag();
     }
 
     public static void openAll(Generator gen){

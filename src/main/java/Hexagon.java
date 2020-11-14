@@ -73,6 +73,22 @@ public class Hexagon extends StackPane {
         }
     }
 
+    public void setFlag(){
+        if(flagIm.visibleProperty().getValue()){
+            flagIm.setVisible(false);
+            if (mine){
+                Generator.getFlag().setDefC(-1);
+            }
+        }
+        else {
+            // флаг на мине
+            flagIm.setVisible(true);
+            if (mine){
+                Generator.getFlag().setDefC(1);
+            }
+        }
+    }
+
     public boolean getTouched(){
         return touched;
     }
