@@ -47,6 +47,7 @@ public class Solver {
         exodia();
         correction();
         correction();
+        correctionCl();
     }
 
     public void openFirst(){
@@ -149,7 +150,7 @@ public class Solver {
                 int value = field[i][j].getValue();
                 int flags = field[i][j].getFlagsAround();
                 if(field[i][j].getOpened() && value != flags) {
-                    Double num = (double) value / (field[i][j].getClosedCells() - flags);
+                    Double num = (double) (value - flags) / (field[i][j].getClosedCells() - flags);
                     chanceForAll(field[i][j], num);
                 }
             }
@@ -174,13 +175,24 @@ public class Solver {
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 int valueF = field[i][j].getValue();
-                if(field[i][j].getOpened() && valueF != field[i][j].getFlagsAround()) {
-                    double value = valueF / chancesAround(field[i][j]);
+                int flagsF = field[i][j].getFlagsAround();
+                if(field[i][j].getOpened() && valueF != flagsF) {
+                    double value = (valueF - flagsF) / chancesAround(field[i][j]);
                     chancesMulti(field[i][j], value);
                 }
             }
         }
         corr = true;
+    }
+
+    public void correctionCl(){
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
+                if(!field[i][j].getChances().isEmpty()){
+                    field[i][j].listClear();
+                }
+            }
+        }
     }
 
     public void chancesMulti(SolverCell current, double numC){
