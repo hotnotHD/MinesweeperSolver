@@ -1,10 +1,6 @@
-import java.lang.annotation.Native;
-import java.util.List;
 import java.util.Random;
 
 public class Solver {
-
-    private int zeroes;
     private int h;
     private int w;
     private SolverCell[][] ff;
@@ -19,6 +15,7 @@ public class Solver {
             {0,-1}
     };
     private boolean changing = true;
+    private boolean corr = false;
 
     Solver(int h, int w, int mines) {
         this.ff = new SolverCell[w][h];
@@ -37,14 +34,16 @@ public class Solver {
     }
 
     public void start() {
-
+        changing = true;
         int v = Minesweeper.openCur(1, 1);
-        ff [1][1].setValue(v); // открываем первую клетку и ставим ее значение.
-        sayForAll(ff[1][1]);
-        ff[1][1].setOpened();
+        if (!ff[1][1].getOpened()) {
+            ff[1][1].setValue(v); // открываем первую клетку и ставим ее значение.
+            sayForAll(ff[1][1]);
+            ff[1][1].setOpened();
+        }
 
         if (ff[1][1].getValue() != 0){
-            randomOpen(ff[1][1]);
+             //randomOpen(ff[1][1]);
         }
 
         while (changing) {
@@ -54,15 +53,12 @@ public class Solver {
         exodia();
         correction();
         correction();
-        for (int j = 0; j < h; j++) {
+        // жижа
+        for (int j = 0; j < h; j++) {  // удоли
             for (int i = 0; i < w; i++) {
-                if (!ff[i][j].getChances().isEmpty()) {
-                    double nums = ff[i][j].getChances().get(0);
-                    String result = String.format("%.2f", nums);
-                    System.out.print(result + " ");// 9 - не открытые клетки
-                } else  System.out.print("0" + "   ");
+                System.out.print(ff[i][j].getClosedCells() + " ");// 9 - не открытые клетки
             }
-            System.out.println("");
+            System.out.println();
         }
 
 
@@ -81,6 +77,15 @@ public class Solver {
                     zero(ff[i][j]);
                 }
             }
+        }
+    }
+
+    public void open( int x, int y){
+        if (!ff[x][y].getOpened()) {
+            int valueC = Minesweeper.openCur(x, y);
+            ff[x][y].setValue(valueC);
+            sayForAll(ff[x][y]);
+            ff[x][y].setOpened();
         }
     }
 
@@ -129,7 +134,6 @@ public class Solver {
     }
 
     public void flaging(SolverCell current){
-        int counter = 0;
         for(int i = 0 ; i < 8; i++ ) {
             if((dev[i][0] + current.getX() >= 0 && dev[i][1] + current.getY() >= 0 &&
                     dev[i][0] + current.getX() < w && dev[i][1] + current.getY() < h) &&
@@ -146,6 +150,9 @@ public class Solver {
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
+                if (corr){
+                    Minesweeper.chanceOff(i,j);
+                }
                 if(ff[i][j].getOpened() && ff[i][j].getValue() != ff[i][j].getFlagsAround()) {
                     Double num = (double) ff[i][j].getValue() / (ff[i][j].getClosedCells() - ff[i][j].getFlagsAround());
                     chanceForAll(ff[i][j], num);
@@ -176,6 +183,7 @@ public class Solver {
                 }
             }
         }
+        corr = true;
     }
 
     public void chancesMulti(SolverCell current, double numC){
@@ -187,6 +195,7 @@ public class Solver {
                  double num = ff[dev[i][0] + current.getX()][dev[i][1] + current.getY()].getChances().get(0);
                 ff[dev[i][0] + current.getX()][dev[i][1] + current.getY()].listClear();
                 ff[dev[i][0] + current.getX()][dev[i][1] + current.getY()].addChance(num * numC);
+                Minesweeper.chanceCur(dev[i][0] + current.getX(), dev[i][1] + current.getY(), num * numC);
             }
         }
     }

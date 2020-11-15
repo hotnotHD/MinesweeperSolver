@@ -13,22 +13,28 @@ public class Hexagon extends StackPane {
     private int numberB; // кол-во мин вокруг
     private Polygon poly; // сама клетка
     private Text text = new Text(); // надпись на клетке
+    private Text chance = new Text();
     private Color[] numC = new Color[]
             {Color.BLUE, Color.GREEN, Color.DARKRED, Color.DARKBLUE, Color.RED, Color.LIGHTBLUE, Color.RED, Color.RED};
     private ImageView mineIm;
     private ImageView flagIm;
     private boolean imagesIn;
+    private int x;
+    private int y;
 
-    Hexagon(Double a, Double x1, Double y1, boolean imagesIn) {
+    Hexagon(Double a, Double x1, Double y1, boolean imagesIn, int x, int y) {
+        this.x = x;
+        this.y = y;
         this.imagesIn = imagesIn;
         poly = new HexCell(a, x1, y1).getPoly();
         text.setFont(Font.font(25));
         text.setVisible(false);
+        chance.setVisible(false);
         if (imagesIn){
             setImages();
-            getChildren().addAll(poly, mineIm,flagIm, text);
+            getChildren().addAll(poly, mineIm, flagIm, text, chance);
         }else {
-            getChildren().addAll(poly, text);
+            getChildren().addAll(poly, text, chance);
         }
         setTranslateX(x1);
         setTranslateY(y1);
@@ -53,6 +59,10 @@ public class Hexagon extends StackPane {
                 } else {
                     text.setText("");
                     poly.setFill(Color.WHITE);
+                }
+                if ( e != null && e.getButton() == MouseButton.PRIMARY){
+                    Generator.solv.open(x, y);
+                    Generator.solv.start();
                 }
             }
         }
@@ -89,6 +99,14 @@ public class Hexagon extends StackPane {
         }
     }
 
+    public void setChance(double num){
+        chance.setText(String.format("%.2f", num));
+        chance.setVisible(true);
+    }
+
+    public void chanceOff(){
+        chance.setVisible(false);
+    }
     public boolean getTouched(){
         return touched;
     }
@@ -119,5 +137,12 @@ public class Hexagon extends StackPane {
         flagIm = new ImageView(flagImage);
         flagIm.setVisible(false);
         mineIm.setVisible(false);
+    }
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
     }
 }

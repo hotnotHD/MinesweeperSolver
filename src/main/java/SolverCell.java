@@ -72,6 +72,7 @@ public class SolverCell {
     public void setFlaged() {
         this.flaged = true;
     }
+
     public List<Double> getChances(){
         return chances;
     }

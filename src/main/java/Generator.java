@@ -25,6 +25,7 @@ public class Generator {
                     {0,-1}
     };
     int heWi;
+    static Solver solv;
 
     Generator(int mines, int height, int width, boolean imageSet) {
         this.width = width;
@@ -98,5 +99,9 @@ public class Generator {
 
     public Hexagon[][] getInfo(){
         return info;
+    }
+
+    public void setSolv(Solver s){
+        solv = s;
     }
 }

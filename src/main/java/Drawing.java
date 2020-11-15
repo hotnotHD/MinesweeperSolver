@@ -23,7 +23,7 @@ public class Drawing {
 
         for(int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
-                pl = new Hexagon(a, x, y, imageSet);
+                pl = new Hexagon(a, x, y, imageSet, i, j);
                 x += a;
                 root.getChildren().add(pl);
                 info[j][i] = pl;

@@ -6,6 +6,12 @@ import javafx.stage.Stage;
 
 public class ViewController {
     @FXML
+    public Button easy;
+    @FXML
+    public Button normal;
+    @FXML
+    public Button hard;
+    @FXML
     private Slider sliderM;
     @FXML
     private Label infoMS;
@@ -36,12 +42,34 @@ public class ViewController {
     public void newGame() {
         // Кол-во мин и close main menu
         Stage stage1 =(Stage) newB.getScene().getWindow();
-        Label minesL = (Label) newB.getParent().getChildrenUnmodifiable().get(0);
-        String mineS = minesL.getText().substring(7);
+        String mineS = infoMS.getText().substring(7);
         stage1.close();
         // open new game
         Minesweeper.fireStarter(chH.getValue(), chW.getValue(), Integer.parseInt(mineS));
-        Solver gg = new Solver(chH.getValue(), chW.getValue(), cc);
-        gg.start();
+
+    }
+
+    public void setEasy(){
+        chH.setValue(9);
+        chW.setValue(9);
+        sliderM.setValue(10);
+        int cc = (int) sliderM.getValue();
+        infoMS.setText("Mines: " + cc);
+    }
+
+    public void setNormal() {
+        chH.setValue(16);
+        chW.setValue(16);
+        sliderM.setValue(40);
+        int cc = (int) sliderM.getValue();
+        infoMS.setText("Mines: " + cc);
+    }
+
+    public void setHard() {
+        chH.setValue(16);
+        chW.setValue(30);
+        sliderM.setValue(99);
+        int cc = (int) sliderM.getValue();
+        infoMS.setText("Mines: " + cc);
     }
 }
