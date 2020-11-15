@@ -52,7 +52,7 @@ public class Minesweeper extends Application {
         Generator.getFlag().getStage().show();
         mineI = gener.getMines();
         int finalMineI = mineI;
-        Solver gg = new Solver(height, width, mineI);
+        Solver gg = new Solver(height, width);
         gener.setSolv(gg);
         gg.start();
         gener.getRoot().setOnMouseClicked(e -> {
