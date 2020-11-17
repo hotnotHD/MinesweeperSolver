@@ -8,8 +8,6 @@ public class SolverCell {
     private int flagsAround = 0;
     private int x;
     private int y;
-    private boolean opened = false;
-    private boolean flaged = false;
     private List<Double> chances = new ArrayList<>();
 
     SolverCell(int x, int y){
@@ -49,28 +47,12 @@ public class SolverCell {
         this.flagsAround++;
     }
 
-    public void setOpened() {
-        this.opened = true;
-    }
-
-    public boolean getOpened() {
-        return opened;
-    }
-
-    public boolean getNoTouch(){
-        return !opened && !flaged;
-    }
-
     public void setClosedLow(){
         closedCells--;
     }
 
     public void addChance(double num){
         chances.add(num);
-    }
-
-    public void setFlaged() {
-        this.flaged = true;
     }
 
     public List<Double> getChances(){

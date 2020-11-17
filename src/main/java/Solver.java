@@ -30,6 +30,7 @@ public class Solver {
                 if (((i == 0 || i== w - 1) && (j > 0 && j < h - 1)) ||
                         ((j == 0 || j == h - 1) && (i > 0 && i < w - 1))) field[i][j].setClosedCells(5);
                 if (field[i][j].getClosedCells() == 0) field[i][j].setClosedCells(8);
+                System.out.println(field[i][j].getClosedCells());
             }
         }
         openFirst();
@@ -54,7 +55,6 @@ public class Solver {
         int v = Minesweeper.openCur(1, 1);
         field[1][1].setValue(v); // открываем первую клетку и ставим ее значение.
         sayForAll(field[1][1]);
-        field[1][1].setOpened();
     }
 
     public void analyzer (){
@@ -74,11 +74,10 @@ public class Solver {
     }
 
     public void open( int x, int y){
-        if (!field[x][y].getOpened()) {
+        if (field[x][y].getValue() == 9) {
             int valueC = Minesweeper.openCur(x, y);
             field[x][y].setValue(valueC);
             sayForAll(field[x][y]);
-            field[x][y].setOpened();
         }
     }
 
@@ -90,7 +89,6 @@ public class Solver {
         int valueC = Minesweeper.openCur(x, y);
         field[x][y].setValue(valueC);
         sayForAll(field[x][y]);
-        field[x][y].setOpened();
 
     }
 
@@ -114,15 +112,14 @@ public class Solver {
         }
     }
 
-    public void zero(SolverCell current){  // вынести в одну переменную коорды//
+    public void zero(SolverCell current){
         for(int i = 0 ; i < 8; i++ ) {
             int x = dev[i][0] + current.getX();
             int y = dev[i][1] + current.getY();
-            if((x >= 0 && y >= 0 && x < w && y < h) && field[x][y].getNoTouch()) {
+            if((x >= 0 && y >= 0 && x < w && y < h) && field[x][y].getValue() == 9) {
                 int valueC = Minesweeper.openCur(x, y);
                 field[x][y].setValue(valueC);
                 sayForAll(field[x][y]);
-                field[x][y].setOpened();
                 changing = true;
             }
         }
@@ -132,8 +129,8 @@ public class Solver {
         for(int i = 0 ; i < 8; i++ ) {
             int x = dev[i][0] + current.getX();
             int y = dev[i][1] + current.getY();
-            if((x >= 0 && y >= 0 && x < w && y < h) && field[x][y].getNoTouch()) {
-                field[x][y].setFlaged();
+            if((x >= 0 && y >= 0 && x < w && y < h) && field[x][y].getValue() == 9) {
+                field[x][y].setValue(10);
                 Minesweeper.flagCur(x, y);
                 sayForFlag(field[x][y]);
                 changing = true;
@@ -149,7 +146,7 @@ public class Solver {
                 }
                 int value = field[i][j].getValue();
                 int flags = field[i][j].getFlagsAround();
-                if(field[i][j].getOpened() && value != flags) {
+                if(field[i][j].getValue() < 9 && value != flags) {
                     Double num = (double) (value - flags) / (field[i][j].getClosedCells() - flags);
                     chanceForAll(field[i][j], num);
                 }
@@ -176,7 +173,7 @@ public class Solver {
             for (int j = 0; j < h; j++) {
                 int valueF = field[i][j].getValue();
                 int flagsF = field[i][j].getFlagsAround();
-                if(field[i][j].getOpened() && valueF != flagsF) {
+                if(field[i][j].getValue() < 9 && valueF != flagsF) {
                     double value = (valueF - flagsF) / chancesAround(field[i][j]);
                     chancesMulti(field[i][j], value);
                 }
@@ -199,7 +196,7 @@ public class Solver {
         for(int i = 0 ; i < 8; i++ ) {
             int x = dev[i][0] + current.getX();
             int y = dev[i][1] + current.getY();
-            if(x >= 0 && y >= 0 && x < w && y < h && field[x][y].getNoTouch() && !field[x][y].getChances().isEmpty()) {
+            if(x >= 0 && y >= 0 && x < w && y < h && field[x][y].getValue() == 9 && !field[x][y].getChances().isEmpty()) {
                 double num = field[x][y].getChances().get(0) * numC;
                 field[x][y].listClear();
                 field[x][y].addChance(num);
@@ -213,7 +210,7 @@ public class Solver {
         for(int i = 0 ; i < 8; i++ ) {
             int x = dev[i][0] + current.getX();
             int y = dev[i][1] + current.getY();
-            if(x >= 0 && y >= 0 && x < w && y < h && field[x][y].getNoTouch() && !field[x][y].getChances().isEmpty()) {
+            if(x >= 0 && y >= 0 && x < w && y < h && field[x][y].getValue() == 9 && !field[x][y].getChances().isEmpty()) {
                num += field[x][y].getChances().get(0);
             }
         }
@@ -224,7 +221,7 @@ public class Solver {
         for(int i = 0 ; i < 8; i++ ) {
             int x = dev[i][0] + current.getX();
             int y = dev[i][1] + current.getY();
-            if(x >= 0 && y >= 0 && x < w && y < h && field[x][y].getNoTouch()) {
+            if(x >= 0 && y >= 0 && x < w && y < h && field[x][y].getValue() == 9) {
                 field[x][y].addChance(num);
             }
         }
