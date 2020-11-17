@@ -30,7 +30,6 @@ public class Solver {
                 if (((i == 0 || i== w - 1) && (j > 0 && j < h - 1)) ||
                         ((j == 0 || j == h - 1) && (i > 0 && i < w - 1))) field[i][j].setClosedCells(5);
                 if (field[i][j].getClosedCells() == 0) field[i][j].setClosedCells(8);
-                System.out.println(field[i][j].getClosedCells());
             }
         }
         openFirst();
