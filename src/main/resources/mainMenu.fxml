@@ -19,4 +19,8 @@
    <Button fx:id="hard" layoutX="276.0" layoutY="301.0" mnemonicParsing="false" onAction="#setHard" prefHeight="22.0" prefWidth="51.0" text="Hard" />
    <ComboBox fx:id="gameModes" layoutX="371.0" layoutY="178.0" prefHeight="22.0" prefWidth="122.0" />
    <TextField fx:id="minesCount" layoutX="74.0" layoutY="160.0" onKeyTyped="#setMinesCount" prefHeight="22.0" prefWidth="51.0" />
+   <Label fx:id="diff0" layoutX="289.0" layoutY="66.0" text="diff0" />
+   <Label fx:id="diff2" layoutX="289.0" layoutY="126.0" text="diff2" />
+   <Label fx:id="diff1" layoutX="289.0" layoutY="96.0" text="diff1" />
+   <Label fx:id="custom" layoutX="286.0" layoutY="41.0" text="custom" />
 </Pane>

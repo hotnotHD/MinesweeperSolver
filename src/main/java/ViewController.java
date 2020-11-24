@@ -4,6 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
 public class ViewController {
     @FXML
     public Button easy;
@@ -18,6 +23,14 @@ public class ViewController {
     @FXML
     public Label infoMS;
     @FXML
+    public Label diff0;
+    @FXML
+    public Label diff2;
+    @FXML
+    public Label diff1;
+    @FXML
+    public Label custom;
+    @FXML
     private Button newB;
     @FXML
     private ComboBox<Integer> chH;
@@ -26,7 +39,7 @@ public class ViewController {
 
     int gameMode;
     @FXML
-    public void initialize(){
+    public void initialize() throws IOException {
         ObservableList<Integer> availableChoices = FXCollections.observableArrayList( 2, 3, 4, 5, 6, 7, 8, 9,
                 10, 11, 12, 13, 14, 15, 16, 17, 18, 30);
         chH.setItems(availableChoices);
@@ -37,6 +50,11 @@ public class ViewController {
                 "Solver mode", "Cheat mode");
         gameModes.setItems(availableChoicesGM);
         gameModes.setValue("Fair game");
+        List<String> list = Files.readAllLines(Paths.get("./src/main/resources/statistics.txt"));
+        custom.setText(list.get(0));
+        diff0.setText(list.get(1));
+        diff1.setText(list.get(2));
+        diff2.setText(list.get(3));
     }
 
     public void setMinesCount(){

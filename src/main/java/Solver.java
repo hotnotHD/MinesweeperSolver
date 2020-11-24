@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Random;
 
 public class Solver {
     private int h;
@@ -49,6 +48,7 @@ public class Solver {
         exodia();
         correction();
         correction();
+        correction2();
         correctionCl();
     }
 
@@ -281,6 +281,32 @@ public class Solver {
         }
         corr = true;
     }
+    public void correction2(){
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
+                int valueF = field[i][j].getValue();
+                int flagsF = field[i][j].getFlagsAround();
+
+                if(field[i][j].getValue() < 9 && valueF != flagsF) {
+                    if(valueF - flagsF == field[i][j].getClosedCells() - flagsF){
+                        chances2(field[i][j]);
+                    }
+                }
+            }
+        }
+    }
+    public void chances2(SolverCell current){
+        for(int i = 0 ; i < 8; i++ ) {
+            int x = dev[i][0] + current.getX();
+            int y = dev[i][1] + current.getY();
+            if(x >= 0 && y >= 0 && x < w && y < h && field[x][y].getValue() == 9 && !field[x][y].getChances().isEmpty()) {
+                field[x][y].listClear();
+                field[x][y].addChance(1);
+                Minesweeper.chanceCur(x, y, 1);
+            }
+        }
+    }
+
 
     public void correctionCl(){
         for (int i = 0; i < w; i++) {
