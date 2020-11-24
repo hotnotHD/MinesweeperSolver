@@ -4,15 +4,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Minesweeper extends Application {
 
     static private Generator gener;
     static private boolean firstCl = true;
+    static private int finalMineI = 0;
+    static private int difficult = 0;
+    static private int game;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -40,8 +48,9 @@ public class Minesweeper extends Application {
         firstCl = true;
     }
 
-    public static void fireStarter(int height, int width, int mineI){
-        gener = new Generator(mineI, height, width, true);
+    public static void fireStarter(int height, int width, int mineI, int gameMode){
+        game = gameMode;
+        gener = new Generator(mineI, height, width, true, gameMode);
         Parent gen = gener.generate();
         Scene scene = new Scene(gen, (width + 2) * 25 , (height + 2) * 30);
         Generator.getFlag().getStage().setScene(scene);
@@ -51,55 +60,63 @@ public class Minesweeper extends Application {
         Generator.getFlag().getStage().setTitle("Minesweeper");
         Generator.getFlag().getStage().show();
         mineI = gener.getMines();
-        int finalMineI = mineI;
-        Solver gg = new Solver(height, width);
-        gener.setSolv(gg);
-        gg.start();
-        gener.getRoot().setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.PRIMARY) {
-                String f = e.getTarget().getClass().getName();
-                if (f.equals("javafx.scene.shape.Polygon") && firstCl) {
-                    gener.planting();
-                    firstCl = false;
-                }
-                if (Generator.getFlag().getLose()){
-                    try {
-                        openAll(gener);
-                        Minesweeper.openWindow(null, "loseScreen.fxml");
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+        finalMineI = mineI;
+        if(gameMode != 0) {
+            Solver gg = new Solver(height, width, mineI);
+            gener.setSolv(gg);
+            if (gameMode == 1) gg.start();
 
-                }
-            }
-            if (finalMineI == Generator.getFlag().getDefC() && Generator.getFlag().getOpens() == height * width - finalMineI){
-                try {
-                    Minesweeper.openWindow(null, "winScreen.fxml");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-        });
+        }
+        gener.getRoot().setOnMouseClicked(e -> checkForEnd(e, height, width));
 
     }
 
+    public static void checkForEnd(MouseEvent e, int height, int width){
+
+        if ( e != null && e.getButton() == MouseButton.PRIMARY) {
+            String f = e.getTarget().getClass().getName();
+            if (f.equals("javafx.scene.shape.Polygon") && firstCl) {
+                gener.planting();
+                firstCl = false;
+            }
+            if (game == 2) Generator.solv.cheats();
+        }
+        if (Generator.getFlag().getLose()){
+            try {
+                // openAll(gener);
+                Minesweeper.openWindow(null, "loseScreen.fxml");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        if (finalMineI == Generator.getFlag().getDefC() && Generator.getFlag().getOpens() == height * width - finalMineI){
+            try {
+                Minesweeper.openWindow(null, "winScreen.fxml");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     public static int openCur(int h, int w){
-        Hexagon[][] info = gener.getInfo(); // оптимизировать
+        Hexagon[][] info = gener.getInfo();
         info[w][h].open(null);
         if(firstCl) {
             gener.planting();
             firstCl = false;
         }
 
-        if(info[w][h].getMine()) return 10;
+        if(info[w][h].getMine()) return 11;
         else return info[w][h].getNumberB();
-
     }
 
+
+
     public static void flagCur(int h, int w){
-        Hexagon[][] info = gener.getInfo(); // оптимизировать
-        info[w][h].setFlag();
+        if(game == 1) {
+            Hexagon[][] info = gener.getInfo();
+            info[w][h].setFlag();
+        }
     }
 
     public static void chanceCur(int h, int w, double num){
@@ -121,4 +138,30 @@ public class Minesweeper extends Application {
         }
     }
 
+    public static void setDifficult(int value){
+        difficult = value;
+    }
+
+    public static void statisticWrite() {
+        try {
+            List<String> list = Files.readAllLines(Paths.get("./src/main/resources/statistics.txt"));
+            String line = list.get(difficult);
+            String[] part = line.split(" ");
+            int wins = Integer.parseInt(part[2]);
+            int loses = Integer.parseInt(part[4]);
+            if (Generator.getFlag().getLose()) loses++;
+            else wins++;
+            int total = loses + wins;
+            int wr = wins * 100 / total;
+            part[2] = "" + wins;
+            part[4] = "" + loses;
+            part[6] = "" + total;
+            part[8] = "" + wr;
+            line = String.join(" ", part);
+            list.set(difficult, line);
+            Files.write(Paths.get("./src/main/resources/statistics.txt"), list);
+        }catch (java.io.IOException ignored) {
+
+        }
+    }
 }

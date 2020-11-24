@@ -12,9 +12,11 @@ public class ViewController {
     @FXML
     public Button hard;
     @FXML
-    private Slider sliderM;
+    public ComboBox<String> gameModes;
     @FXML
-    private Label infoMS;
+    public TextField minesCount;
+    @FXML
+    public Label infoMS;
     @FXML
     private Button newB;
     @FXML
@@ -22,8 +24,7 @@ public class ViewController {
     @FXML
     private ComboBox<Integer> chW;
 
-    private int cc;
-
+    int gameMode;
     @FXML
     public void initialize(){
         ObservableList<Integer> availableChoices = FXCollections.observableArrayList( 2, 3, 4, 5, 6, 7, 8, 9,
@@ -32,44 +33,57 @@ public class ViewController {
         chW.setItems(availableChoices);
         chW.setValue(7);
         chH.setValue(7);
+        ObservableList<String> availableChoicesGM = FXCollections.observableArrayList( "Fair game",
+                "Solver mode", "Cheat mode");
+        gameModes.setItems(availableChoicesGM);
+        gameModes.setValue("Fair game");
     }
 
-    public void change() {
-        int cc = (int) sliderM.getValue();
-        infoMS.setText("Mines: " + cc);
+    public void setMinesCount(){
+        if( !minesCount.getText().isEmpty() && !minesCount.getText().matches( "((100)|[0-9]{0,2})")){
+            minesCount.replaceText(minesCount.getText().length() - 1 ,minesCount.getText().length(), "");
+        }
     }
 
     public void newGame() {
         // Кол-во мин и close main menu
+        int mi = 0;
+        switch (gameModes.getValue()){
+            case "Fair game":
+                gameMode = 0;
+                break;
+            case "Solver mode":
+                gameMode = 1;
+                break;
+            case "Cheat mode":
+                gameMode = 2;
+                break;
+        }
+        if (!minesCount.getText().isEmpty())mi = Integer.parseInt(minesCount.getText());
+        if (chH.getValue() == 9 && chW.getValue() == 9 && mi == 10) Minesweeper.setDifficult(1);
+        if (chH.getValue() == 16 && chW.getValue() == 16 && mi == 40) Minesweeper.setDifficult(2);
+        if (chW.getValue() == 30 && chH.getValue() == 16 && mi == 99) Minesweeper.setDifficult(3);
         Stage stage1 =(Stage) newB.getScene().getWindow();
-        String mineS = infoMS.getText().substring(7);
         stage1.close();
         // open new game
-        Minesweeper.fireStarter(chH.getValue(), chW.getValue(), Integer.parseInt(mineS));
-
+        Minesweeper.fireStarter(chH.getValue(), chW.getValue(), mi, gameMode);
     }
 
     public void setEasy(){
         chH.setValue(9);
         chW.setValue(9);
-        sliderM.setValue(10);
-        int cc = (int) sliderM.getValue();
-        infoMS.setText("Mines: " + cc);
+        minesCount.setText("10");
     }
 
     public void setNormal() {
         chH.setValue(16);
         chW.setValue(16);
-        sliderM.setValue(40);
-        int cc = (int) sliderM.getValue();
-        infoMS.setText("Mines: " + cc);
+        minesCount.setText("40");
     }
 
     public void setHard() {
         chH.setValue(16);
         chW.setValue(30);
-        sliderM.setValue(99);
-        int cc = (int) sliderM.getValue();
-        infoMS.setText("Mines: " + cc);
+        minesCount.setText("99");
     }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 public class SolverCell {
 
     private int value = 9;
-    private int closedCells;
+    private int closedCells = 0;
     private int flagsAround = 0;
     private int x;
     private int y;
@@ -45,6 +45,10 @@ public class SolverCell {
 
     public void setFlagsAround() {
         this.flagsAround++;
+    }
+
+    public void dropFlagsAround() {
+        this.flagsAround--;
     }
 
     public void setClosedLow(){

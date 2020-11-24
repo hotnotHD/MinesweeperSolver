@@ -26,11 +26,14 @@ public class Generator {
     };
     int heWi;
     static Solver solv;
+    boolean solver = false;
+    static int gameMode;
 
-    Generator(int mines, int height, int width, boolean imageSet) {
+    Generator(int mines, int height, int width, boolean imageSet, int gameMode) {
         this.width = width;
         this.height = height;
         this.mines = mines;
+        Generator.gameMode = gameMode;
         info = new Hexagon[this.height][this.width];
         this.imageSet = imageSet;
         heWi = height * width;
@@ -103,5 +106,14 @@ public class Generator {
 
     public void setSolv(Solver s){
         solv = s;
+        solver = true;
+    }
+    public static void open(int x, int y){
+        if (gameMode == 2) {
+            solv.open(x, y);
+        }
+    }
+    public static void start(){
+        if (gameMode == 1) solv.start();
     }
 }

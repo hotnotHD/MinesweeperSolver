@@ -1,0 +1,4 @@
+Custom: Wins: 19 Loses: 5 Total: 24 W/R: 79 %
+Easy: Wins: 759 Loses: 311 Total: 1070 W/R: 70 %
+Normal: Wins: 526 Loses: 530 Total: 1056 W/R: 49 %
+Hard: Wins: 39 Loses: 490 Total: 529 W/R: 7 %

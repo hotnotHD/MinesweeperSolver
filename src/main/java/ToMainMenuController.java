@@ -14,6 +14,7 @@ public class ToMainMenuController {
         Generator.getFlag().getStage().close();
         Button g = backTMmenu != null ? backTMmenu : backTMmenu2;
         Stage stage1 =(Stage) g.getScene().getWindow();
+        Minesweeper.statisticWrite();
         Minesweeper.openWindow(stage1, "mainMenu.fxml");
     }
 }

@@ -61,14 +61,18 @@ public class Hexagon extends StackPane {
                     poly.setFill(Color.WHITE);
                 }
                 if ( e != null && e.getButton() == MouseButton.PRIMARY){
-                    Generator.solv.open(x, y);
-                    Generator.solv.start();
+                    if(Generator.solv != null) {
+                        Generator.open(x, y);
+                        Generator.start();
+
+                    }
                 }
             }
         }
         if (e != null && e.getButton() == MouseButton.SECONDARY && !touched) {
             if(flagIm.visibleProperty().getValue()){
                 flagIm.setVisible(false);
+                if (Generator.solv != null) Generator.solv.unFlagOne(x, y);
                 if (mine){
                     Generator.getFlag().setDefC(-1);
                 }
@@ -76,6 +80,7 @@ public class Hexagon extends StackPane {
             else {
                  // флаг на мине
                 flagIm.setVisible(true);
+                if (Generator.solv != null) Generator.solv.flagOne(x,y);
                 if (mine){
                     Generator.getFlag().setDefC(1);
                 }
