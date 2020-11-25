@@ -52,7 +52,7 @@ public class Solver {
         correctionCl();
     }
 
-    public void start() { // один запуск старт, добавить цикл вайл
+    public void start() {
         if (first) {
             openFirst();
             first = false;
@@ -103,7 +103,7 @@ public class Solver {
     public void openFirst(){
         int v = Minesweeper.openCur(1, 1);
         openedCells--;
-        field[1][1].setValue(v); // открываем первую клетку и ставим ее значение.
+        field[1][1].setValue(v);
         sayForAll(field[1][1]);
     }
 
